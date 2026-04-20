@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AskPrysmian Analytics</title>
+  <link rel="icon" type="image/png" href="./logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg, #F5F7FB 25%, #DCE4F2 50%, #F5F7FB 75%);
+      background-size: 1000px 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #F5F7FB; }
+    ::-webkit-scrollbar-thumb { background: #DCE4F2; border-radius: 3px; }
+    .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+    .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+    .expand-icon { transition: transform 0.15s ease; }
+
+    /* === Prysmian Brand Palette === */
+    :root {
+      --p-black:      #191B27;
+      --p-blue:       #0093FF;
+      --p-blue-dark:  #0075CC;
+      --p-blue-light: #E6F3FF;
+      --p-blue-xlight:#F0F8FF;
+      --p-gray-xl:    #F5F7FB;
+      --p-gray-l:     #DCE4F2;
+      --p-gray-m:     #A8B3CC;  /* mid — used for slate-400 */
+      --p-gray-s:     #7A869E;  /* secondary — used for slate-500 */
+      --p-gray-d:     #2D354A;
+      --p-green:      #5FCE6D;
+      --p-green-dark: #3EAF4C;
+      --p-green-l:    #EDFBEF;
+    }
+    body { background-color: var(--p-gray-xl) !important; color: var(--p-black); }
+
+    /* --- Text --- */
+    .text-slate-900 { color: var(--p-black)  !important; }
+    .text-slate-800 { color: var(--p-gray-d) !important; }
+    .text-slate-700 { color: var(--p-gray-d) !important; }
+    .text-slate-600 { color: #3D4760        !important; }
+    .text-slate-500 { color: var(--p-gray-s) !important; }
+    .text-slate-400 { color: var(--p-gray-m) !important; }
+    .text-blue-600  { color: var(--p-blue)      !important; }
+    .text-blue-700  { color: var(--p-blue-dark) !important; }
+    .hover\:text-blue-700:hover  { color: var(--p-blue-dark) !important; }
+    .hover\:text-slate-700:hover { color: var(--p-gray-d)   !important; }
+    .text-emerald-600 { color: var(--p-green)      !important; }
+    .text-emerald-700 { color: var(--p-green-dark) !important; }
+    input::placeholder,
+    .placeholder-slate-400::placeholder { color: var(--p-gray-m) !important; }
+
+    /* --- Backgrounds --- */
+    .bg-slate-50              { background-color: var(--p-gray-xl)    !important; }
+    .hover\:bg-slate-50:hover { background-color: var(--p-gray-xl)    !important; }
+    .bg-slate-100             { background-color: var(--p-gray-l)     !important; }
+    .bg-blue-50               { background-color: var(--p-blue-light) !important; }
+    .bg-emerald-50            { background-color: var(--p-green-l)    !important; }
+    /* opacity variant used in table detail rows */
+    [class*="bg-slate-50\/"] { background-color: rgba(245,247,251,0.6) !important; }
+
+    /* --- Borders --- */
+    .border-slate-200   { border-color: var(--p-gray-l) !important; }
+    .border-slate-100   { border-color: #ECF0F8         !important; }
+    .border-slate-300   { border-color: var(--p-gray-l) !important; }
+    .border-blue-600    { border-color: var(--p-blue)   !important; }
+    .border-blue-100    { border-color: #CCE5FF         !important; }
+    .border-emerald-200 { border-color: #B3EDBA         !important; }
+
+    /* --- Focus & inputs --- */
+    .focus\:ring-blue-500:focus { --tw-ring-color: var(--p-blue) !important; }
+    input[type=checkbox] { accent-color: var(--p-blue); }
+
+    /* --- Shadow on header uses white, keep --- */
+    .shadow-sm { box-shadow: 0 1px 3px 0 rgba(45,53,74,0.08) !important; }
+
+    /* --- Amber (warning states: answer rate medium) kept as-is --- */
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+<!-- Sticky header -->
+<div class="sticky top-0 z-50 bg-white shadow-sm">
+
+  <!-- Demo Banner -->
+  <div id="demo-banner" class="hidden bg-amber-50 border-b border-amber-200 px-6 py-2 text-sm text-amber-800 flex items-center gap-2">
+    <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+    </svg>
+    <span id="demo-banner-text">Demo mode — webhook unreachable. Showing sample data.</span>
+    <a id="demo-banner-link" class="hidden ml-2 underline hover:text-amber-900" href="#" target="_blank">Open webhook in new tab →</a>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="px-6 py-3 flex items-center justify-between border-b border-slate-100">
+    <div class="flex items-center gap-3">
+      <img src="./logo.png" alt="Prysmian" class="h-8 w-auto">
+      <div>
+        <h1 class="text-base font-semibold tracking-tight text-slate-900">AskPrysmian Analytics</h1>
+        <p class="text-xs text-slate-500 leading-tight">Chatbot insights</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="last-updated" class="text-xs text-slate-400"></span>
+      <span id="new-badge" class="hidden text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md"></span>
+      <button id="btn-refresh" onclick="fetchData(false)"
+        class="text-sm font-medium text-slate-700 border border-slate-200 px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50">
+        Refresh
+      </button>
+      <button id="btn-hard-refresh" onclick="fetchData(true)"
+        class="text-sm text-slate-500 border border-slate-200 px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50">
+        Hard refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="px-6 flex border-b border-slate-200 overflow-x-auto">
+    <button class="tab-btn text-sm font-medium px-4 py-2.5 border-b-2 border-blue-600 text-blue-600 whitespace-nowrap" data-tab="dashboard">Dashboard</button>
+    <button class="tab-btn text-sm font-medium px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap" data-tab="users">Users</button>
+    <button class="tab-btn text-sm font-medium px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap" data-tab="companies">Companies</button>
+    <button class="tab-btn text-sm font-medium px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap" data-tab="topics">Topics</button>
+    <button class="tab-btn text-sm font-medium px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap" data-tab="content">Content</button>
+    <button class="tab-btn text-sm font-medium px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap" data-tab="conversations">Conversations</button>
+  </div>
+
+  <!-- Filters Bar -->
+  <div class="px-6 py-3 flex items-center gap-3 flex-wrap bg-white border-b border-slate-100">
+    <!-- Date Range -->
+    <div class="relative">
+      <select id="filter-daterange" class="text-sm border border-slate-200 rounded-md px-3 py-1.5 pr-7 text-slate-700 bg-white appearance-none cursor-pointer hover:border-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+        <option value="all">All time</option>
+        <option value="custom">Custom range</option>
+      </select>
+      <svg class="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    </div>
+    <!-- Custom dates -->
+    <div id="custom-date-range" class="hidden items-center gap-2">
+      <input type="date" id="filter-date-from" class="text-sm border border-slate-200 rounded-md px-3 py-1.5 text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500">
+      <span class="text-xs text-slate-400">to</span>
+      <input type="date" id="filter-date-to" class="text-sm border border-slate-200 rounded-md px-3 py-1.5 text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500">
+    </div>
+    <!-- Topic multi-select -->
+    <div class="relative" id="topic-dd-wrap">
+      <button id="topic-dd-btn" class="flex items-center gap-1.5 text-sm border border-slate-200 rounded-md px-3 py-1.5 text-slate-700 bg-white hover:border-slate-300 min-w-[120px]">
+        <span id="topic-dd-label">All Topics</span>
+        <svg class="w-3.5 h-3.5 text-slate-400 ml-auto flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div id="topic-dd" class="hidden absolute top-full left-0 mt-1 w-64 bg-white border border-slate-200 rounded-lg shadow-lg z-50">
+        <div class="px-3 py-2 border-b border-slate-100 flex justify-between items-center">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Topics</span>
+          <button onclick="clearFilter('topics')" class="text-xs text-blue-600 hover:text-blue-700">Clear</button>
+        </div>
+        <div id="topic-dd-options" class="max-h-52 overflow-y-auto py-1"></div>
+      </div>
+    </div>
+    <!-- Company multi-select -->
+    <div class="relative" id="company-dd-wrap">
+      <button id="company-dd-btn" class="flex items-center gap-1.5 text-sm border border-slate-200 rounded-md px-3 py-1.5 text-slate-700 bg-white hover:border-slate-300 min-w-[140px]">
+        <span id="company-dd-label">All Companies</span>
+        <svg class="w-3.5 h-3.5 text-slate-400 ml-auto flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div id="company-dd" class="hidden absolute top-full left-0 mt-1 w-64 bg-white border border-slate-200 rounded-lg shadow-lg z-50">
+        <div class="px-3 py-2 border-b border-slate-100 flex justify-between items-center">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Companies</span>
+          <button onclick="clearFilter('companies')" class="text-xs text-blue-600 hover:text-blue-700">Clear</button>
+        </div>
+        <div id="company-dd-options" class="max-h-52 overflow-y-auto py-1"></div>
+      </div>
+    </div>
+    <!-- Search -->
+    <div class="relative flex-1 min-w-[180px] max-w-xs">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="filter-search" placeholder="Search questions…"
+        class="w-full text-sm border border-slate-200 rounded-md pl-8 pr-3 py-1.5 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500">
+    </div>
+    <span id="filter-count" class="hidden text-xs text-slate-500"></span>
+    <button id="clear-all-btn" class="hidden text-xs text-blue-600 hover:text-blue-700" onclick="clearAllFilters()">Clear all</button>
+  </div>
+</div>
+
+<!-- Main content -->
+<main class="px-6 py-6 max-w-screen-2xl mx-auto">
+
+  <!-- TAB: Dashboard -->
+  <div id="tab-dashboard" class="tab-content">
+    <div id="dash-skeleton">
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="skeleton h-28 rounded-lg"></div>
+        <div class="skeleton h-28 rounded-lg"></div>
+        <div class="skeleton h-28 rounded-lg"></div>
+        <div class="skeleton h-28 rounded-lg"></div>
+      </div>
+      <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="skeleton h-64 rounded-lg col-span-2"></div>
+        <div class="skeleton h-64 rounded-lg"></div>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="skeleton h-64 rounded-lg"></div>
+        <div class="skeleton h-64 rounded-lg col-span-2"></div>
+      </div>
+    </div>
+    <div id="dash-content" class="hidden">
+      <!-- KPI Row -->
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Conversations</p>
+          <p class="text-3xl font-semibold tracking-tight text-slate-900" id="kpi-total">—</p>
+          <p class="text-xs text-slate-400 mt-1" id="kpi-total-delta"></p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Unique Users</p>
+          <p class="text-3xl font-semibold tracking-tight text-slate-900" id="kpi-users">—</p>
+          <p class="text-xs text-slate-400 mt-1" id="kpi-users-delta"></p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Answer Rate</p>
+          <p class="text-3xl font-semibold tracking-tight" id="kpi-answer-rate">—</p>
+          <p class="text-xs text-slate-400 mt-1" id="kpi-answer-rate-sub"></p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Top Topic</p>
+          <p class="text-xl font-semibold tracking-tight text-slate-900 leading-snug" id="kpi-top-topic">—</p>
+          <p class="text-xs text-slate-400 mt-1" id="kpi-top-topic-pct"></p>
+        </div>
+      </div>
+      <!-- Charts row 1 -->
+      <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="bg-white border border-slate-200 rounded-lg p-6 col-span-2">
+          <h3 class="text-sm font-semibold text-slate-900 mb-0.5">Conversations Over Time</h3>
+          <p class="text-xs text-slate-400 mb-4">Daily volume</p>
+          <div style="position:relative;height:180px"><canvas id="chart-timeline"></canvas></div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <h3 class="text-sm font-semibold text-slate-900 mb-0.5">Topic Distribution</h3>
+          <p class="text-xs text-slate-400 mb-4">Share of conversations</p>
+          <div style="position:relative;height:180px"><canvas id="chart-donut"></canvas></div>
+        </div>
+      </div>
+      <!-- Charts row 2 -->
+      <div class="grid grid-cols-3 gap-4">
+        <div class="bg-white border border-slate-200 rounded-lg p-6 flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-900">Users</h3>
+            <div class="flex gap-1">
+              <button id="tub-conv" onclick="switchTopUsersTab('conversations')"
+                class="text-xs font-medium px-2.5 py-1 rounded-md transition-colors">By Conversations</button>
+              <button id="tub-quest" onclick="switchTopUsersTab('questions')"
+                class="text-xs font-medium px-2.5 py-1 rounded-md transition-colors">By Questions</button>
+            </div>
+          </div>
+          <div style="max-height:260px;overflow-y:auto">
+            <table class="w-full">
+              <thead class="sticky top-0 bg-white z-10">
+                <tr class="border-b border-slate-100">
+                  <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider pb-2 pr-2">#</th>
+                  <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider pb-2">User</th>
+                  <th class="text-right text-xs font-semibold text-slate-500 uppercase tracking-wider pb-2" id="tub-col-label">Conversations</th>
+                </tr>
+              </thead>
+              <tbody id="top-users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-6 col-span-2">
+          <h3 class="text-sm font-semibold text-slate-900 mb-0.5">Recent Activity</h3>
+          <p class="text-xs text-slate-400 mb-4">Latest 10 conversations</p>
+          <div id="recent-activity" class="divide-y divide-slate-100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Users -->
+  <div id="tab-users" class="tab-content hidden">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="relative w-72">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="users-search" placeholder="Search by name or email…"
+          class="w-full text-sm border border-slate-200 rounded-md pl-8 pr-3 py-1.5 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500">
+      </div>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200 text-left">
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="name" data-sort-table="users">Full Name <span class="sort-ind-u"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Company</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="count" data-sort-table="users">Conversations <span class="sort-ind-u"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="last_active" data-sort-table="users">Last Active <span class="sort-ind-u"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Top Topic</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Answer Rate</th>
+          </tr>
+        </thead>
+        <tbody id="users-tbody" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <div id="users-empty" class="hidden py-16 text-center text-sm text-slate-400">No users match the current filters.</div>
+    </div>
+  </div>
+
+  <!-- TAB: Companies -->
+  <div id="tab-companies" class="tab-content hidden">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="relative w-72">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="companies-search" placeholder="Search by company…"
+          class="w-full text-sm border border-slate-200 rounded-md pl-8 pr-3 py-1.5 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500">
+      </div>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200 text-left">
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="company" data-sort-table="companies">Company <span class="sort-ind-c"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="count" data-sort-table="companies">Conversations <span class="sort-ind-c"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="users" data-sort-table="companies">Users <span class="sort-ind-c"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="answer_rate" data-sort-table="companies">Answer Rate <span class="sort-ind-c"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Top Topic</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="last_active" data-sort-table="companies">Last Active <span class="sort-ind-c"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="avg_tokens" data-sort-table="companies">Avg Tokens <span class="sort-ind-c"></span></th>
+          </tr>
+        </thead>
+        <tbody id="companies-tbody" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <div id="companies-empty" class="hidden py-16 text-center text-sm text-slate-400">No companies match the current filters.</div>
+    </div>
+  </div>
+
+  <!-- TAB: Topics -->
+  <div id="tab-topics" class="tab-content hidden">
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200 text-left">
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="topic" data-sort-table="topics">Topic <span class="sort-ind-t"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="count" data-sort-table="topics">Conversations <span class="sort-ind-t"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="pct" data-sort-table="topics">% Total <span class="sort-ind-t"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="users" data-sort-table="topics">Unique Users <span class="sort-ind-t"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="answer_rate" data-sort-table="topics">Answer Rate <span class="sort-ind-t"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none text-right" data-sort-col="avg_tokens" data-sort-table="topics">Avg Tokens <span class="sort-ind-t"></span></th>
+          </tr>
+        </thead>
+        <tbody id="topics-tbody" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <div id="topics-empty" class="hidden py-16 text-center text-sm text-slate-400">No topics match the current filters.</div>
+    </div>
+  </div>
+
+  <!-- TAB: Content (unanswered) -->
+  <div id="tab-content" class="tab-content hidden">
+    <div class="flex items-start justify-between mb-6">
+      <div>
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="text-4xl font-semibold text-slate-900" id="gaps-count">—</span>
+          <span class="text-sm text-slate-500">unanswered questions</span>
+        </div>
+        <div style="position:relative;height:40px;width:220px"><canvas id="chart-gaps-trend"></canvas></div>
+      </div>
+      <button onclick="exportGapsCSV()"
+        class="flex items-center gap-2 text-sm font-medium text-slate-700 border border-slate-200 bg-white px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Export CSV
+      </button>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200 text-left">
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Question</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">User</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">Date</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Topic</th>
+          </tr>
+        </thead>
+        <tbody id="gaps-tbody" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <div id="gaps-empty" class="hidden py-16 text-center text-sm text-slate-400">No unanswered questions match the current filters.</div>
+    </div>
+  </div>
+
+  <!-- TAB: Conversations (all Q&A) -->
+  <div id="tab-conversations" class="tab-content hidden">
+    <div class="flex items-center justify-between mb-4">
+      <p class="text-sm text-slate-500" id="conv-count-label"></p>
+      <button onclick="exportConversationsCSV()"
+        class="flex items-center gap-2 text-sm font-medium text-slate-700 border border-slate-200 bg-white px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Export CSV
+      </button>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200 text-left">
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none whitespace-nowrap" data-sort-col="created_at" data-sort-table="conversations">Date <span class="sort-ind-q"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="name" data-sort-table="conversations">User <span class="sort-ind-q"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer select-none" data-sort-col="company" data-sort-table="conversations">Company <span class="sort-ind-q"></span></th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Topics</th>
+            <th class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Answered</th>
+            <th class="px-4 py-3 w-8"></th>
+          </tr>
+        </thead>
+        <tbody id="conversations-tbody" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <div id="conversations-empty" class="hidden py-16 text-center text-sm text-slate-400">No conversations match the current filters.</div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// === CONFIG ===
+const WEBHOOK_URL = "https://n8n.srv880882.hstgr.cloud/webhook/askprysmian-data";
+
+// === MOCK DATA ===
+function buildMockData() {
+  const TOPICS = ["Product Specifications","Datasheets & Documentation","Pricing & Availability","Installation & Technical Support","Standards & Certifications","Competitor & Comparison","Other"];
+  const TOPIC_WEIGHTS = [28, 16, 11, 21, 8, 4, 12];
+  const USERS = [
+    { first_name:"Marco",  last_name:"Bianchi",   email:"m.bianchi@prysmian.com",       company:"prysmian.com" },
+    { first_name:"Anna",   last_name:"Ferrari",   email:"a.ferrari@nexans.com",          company:"nexans.com" },
+    { first_name:"Luca",   last_name:"Conti",     email:"l.conti@prysmian.com",          company:"prysmian.com" },
+    { first_name:"Sofia",  last_name:"Esposito",  email:"s.esposito@general-cable.com",  company:"general-cable.com" },
+    { first_name:"David",  last_name:"Smith",     email:"d.smith@abb.com",               company:"abb.com" },
+    { first_name:"Emma",   last_name:"Johnson",   email:"e.johnson@prysmian.com",        company:"prysmian.com" },
+    { first_name:"Carlos", last_name:"García",    email:"c.garcia@endesa.com",           company:"endesa.com" },
+    { first_name:"Laura",  last_name:"Müller",    email:"l.muller@siemens.com",          company:"siemens.com" },
+    { first_name:"Thomas", last_name:"Dubois",    email:"t.dubois@nexans.com",           company:"nexans.com" },
+    { first_name:"Giulia", last_name:"Ricci",     email:"g.ricci@prysmian.com",          company:"prysmian.com" },
+    { first_name:"James",  last_name:"Wilson",    email:"j.wilson@abb.com",              company:"abb.com" },
+    { first_name:"Marie",  last_name:"Bernard",   email:"m.bernard@edf.fr",              company:"edf.fr" },
+    { first_name:"Hassan", last_name:"Al-Rashid", email:"h.alrashid@aramco.com",         company:"aramco.com" },
+    { first_name:"Yuki",   last_name:"Tanaka",    email:"y.tanaka@prysmian.com",         company:"prysmian.com" },
+    { first_name:"Sara",   last_name:"Nilsson",   email:"s.nilsson@vattenfall.com",      company:"vattenfall.com" },
+  ];
+  const QA = {
+    "Product Specifications": { qs:["What is the voltage rating for the FG16OR16 cable?","What is the current carrying capacity of the N2XSY at 20°C?","What are the conductor cross-sections available for 33kV XLPE?","What is the minimum bending radius for the DryCab submarine cable?","What is the maximum operating temperature for the silicone rubber cable?","What outer sheath colors are standard for the LV aerial bundled cable?"], a:"The cable meets the following specifications: voltage class 0.6/1kV (or higher depending on variant), XLPE insulation for superior thermal performance, available in copper or aluminium conductors across standard cross-sections per IEC 60228. Please refer to the product datasheet or contact your local Prysmian representative for exact parameters for your project." },
+    "Datasheets & Documentation": { qs:["Where can I find the datasheet for the DryCab cable system?","Can you send the installation manual for the Draka submarine cable?","I need the type test report for the 66kV XLPE cable.","Where is the fire performance certificate for Afumex cables?","Is the technical specification document for HV joints available online?"], a:"The documentation you requested is available through our Prysmian product portal. The datasheet includes full technical specs, applicable test reports, and installation guidance in line with IEC and CENELEC standards. Please contact your local sales team or log into the Prysmian partner portal to download the complete package." },
+    "Pricing & Availability": { qs:["What is the lead time for the 95mm² aluminium MV cable?","Is 3-core 240mm² submarine cable in stock at the Italian warehouse?","What is the MOQ for the low voltage flexible cables?","Can you give a price indication for 500m of 33kV cable?","When will the new HVDC product line be commercially available?"], a:"Availability and lead times vary by product and region — standard lead time for stocked items is 2–4 weeks; for made-to-order cables it can be 8–14 weeks. Pricing depends on quantity, specification, and your commercial agreement. Please reach out to your Prysmian account manager for a formal quotation." },
+    "Installation & Technical Support": { qs:["How do I properly terminate an 11kV cable in a switchgear panel?","What is the correct installation procedure in wet or flooded conduit?","The cable joint on site is overheating — what could be the cause?","What cable gland type is recommended for FP200 Gold cables?","How do I calculate ampacity for cables installed directly in ground?","What is the maximum pulling tension for 150mm² XLPE cable?"], a:"For installation and technical support, please follow the guidelines in our technical documentation. Key principles include verifying environmental suitability, using manufacturer-approved accessories, respecting torque and pulling tension limits, and performing insulation resistance and continuity tests post-installation. Our technical helpdesk is available for on-site support." },
+    "Standards & Certifications": { qs:["Does the FG16OR16 comply with IEC 60502-1?","What Euroclass CPR rating do your cables carry?","Which Prysmian cables are ATEX certified for hazardous areas?","Does the marine cable meet IEC 60092-353?","What is the UL listing number for the Draka instrument cable?"], a:"Yes, this product complies with the relevant international and European standards including IEC, EN, and where applicable UL certifications. CPR-rated products carry the CE mark with the corresponding Euroclass. Full certification documentation is available from your local Prysmian contact or via the product portal." },
+    "Competitor & Comparison": { qs:["How does Prysmian's XLPE cable compare to the equivalent Nexans product?","Is the Draka submarine cable technically superior to General Cable's offering?","What advantages does Prysmian have over competitors in the HV segment?"], a:"Prysmian Group is one of the world's leading cable manufacturers with a vertically integrated supply chain, global R&D centers, and extensive type-testing history. We'd be happy to provide a detailed technical comparison document tailored to your specific application. Please contact our technical sales team." },
+    "Other": { qs:["What is the warranty period for the HV cable system?","Can Prysmian provide cable route survey services?","What is Prysmian's environmental policy for cable production?","How do I contact the technical sales team in Germany?","What recycling options are available for decommissioned Prysmian cables?"], a:"Thank you for your question. For this type of inquiry our customer service team is best placed to assist. Please visit prysmiangroup.com or contact your nearest Prysmian office directly." }
+  };
+
+  const now = new Date();
+  const conversations = [];
+  for (let i = 0; i < 80; i++) {
+    const user = USERS[Math.floor(Math.random() * USERS.length)];
+    let topicIdx = 0, r = Math.random() * 100, cum = 0;
+    for (let j = 0; j < TOPIC_WEIGHTS.length; j++) { cum += TOPIC_WEIGHTS[j]; if (r < cum) { topicIdx = j; break; } }
+    const topic = TOPICS[topicIdx];
+    const { qs, a } = QA[topic];
+    const question = qs[Math.floor(Math.random() * qs.length)];
+    const has_answer = Math.random() > 0.10;
+    const daysAgo = Math.floor(Math.random() * 60);
+    const d = new Date(now); d.setDate(d.getDate() - daysAgo);
+    const mm = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0'), yy = d.getFullYear();
+    const hh = String(Math.floor(Math.random()*9)+8).padStart(2,'0'), mn = String(Math.floor(Math.random()*60)).padStart(2,'0');
+    conversations.push({ id:`mock-${i}`, date:`${mm}/${dd}/${yy}`, time:`${hh}:${mn}:00`, created_at:`${yy}-${mm}-${dd}T${hh}:${mn}:00.000Z`, user_id:`uid_${USERS.indexOf(user)}`, first_name:user.first_name, last_name:user.last_name, email:user.email, company:user.company, question, answer:has_answer?a:"I'm sorry, I wasn't able to find sufficient information to answer your question. Please contact our technical support team directly.", topic, has_answer, duration_sec:(Math.random()*8+1).toFixed(1), total_tokens:Math.floor(Math.random()*1500+300), status:has_answer?"OK":"NO_ANSWER" });
+  }
+  conversations.sort((a,b) => new Date(b.created_at)-new Date(a.created_at));
+  const topic_counts = {};
+  TOPICS.forEach(t => { topic_counts[t] = conversations.filter(c=>c.topic===t).length; });
+  const answered = conversations.filter(c=>c.has_answer).length;
+  return { meta:{ generated_at:new Date().toISOString(), total_conversations:80, unique_users:new Set(conversations.map(c=>c.email)).size, unique_companies:new Set(conversations.map(c=>c.company)).size, unanswered:80-answered, answer_rate_pct:+((answered/80)*100).toFixed(1), workos_users_loaded:80, topic_counts, cache:{ new_conversations_fetched:0, from_cache:80, fetch_time_sec:"0.1", last_run_time:new Date().toISOString(), was_forced:false } }, conversations };
+}
+
+const MOCK_DATA = buildMockData();
+
+// === STATE ===
+const state = {
+  data: null,
+  filtered: [],
+  tab: 'dashboard',
+  loading: false,
+  filters: { dateRange:'30', dateFrom:null, dateTo:null, topics:[], companies:[], search:'' },
+  sort: {
+    topics:        { col:'count',      dir:'desc' },
+    users:         { col:'count',      dir:'desc' },
+    companies:     { col:'count',      dir:'desc' },
+    conversations: { col:'created_at', dir:'desc' }
+  },
+  usersSearch: '',
+  companiesSearch: ''
+};
+
+const charts = {};
+
+// === DATA FETCHING ===
+async function fetchData(force) {
+  if (state.loading) return;
+  state.loading = true;
+  setRefreshBtns(true);
+  showSkeleton();
+
+  const isDemoUrl = WEBHOOK_URL === 'REPLACE_WITH_N8N_WEBHOOK_URL';
+  let demo = false;
+
+  if (!isDemoUrl) {
+    // Show elapsed time while waiting (first load can take 50+ seconds)
+    const startMs = Date.now();
+    const ticker = setInterval(() => {
+      const s = Math.round((Date.now() - startMs) / 1000);
+      document.getElementById('btn-refresh').textContent = `Loading… ${s}s`;
+    }, 1000);
+
+    try {
+      const url = force ? `${WEBHOOK_URL}?force=1` : WEBHOOK_URL;
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 120000); // 2 min — first load can take 50+ s
+      const res = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error(`HTTP ${res.status} — check the n8n workflow is Active`);
+      state.data = await res.json();
+    } catch (e) {
+      let reason = e.message;
+      if (e.name === 'AbortError') reason = 'Timeout after 120s. The n8n workflow may be overloaded — try Hard refresh.';
+      else if (e.message.includes('Failed to fetch') || e.message.toLowerCase().includes('network')) reason = 'Network error. Check the n8n server is reachable and the workflow is Active.';
+      console.error('[AskPrysmian] Webhook error:', reason, e);
+      showFetchError(reason);
+      state.data = MOCK_DATA; demo = true;
+    } finally {
+      clearInterval(ticker);
+    }
+  } else {
+    state.data = MOCK_DATA; demo = true;
+  }
+
+  document.getElementById('demo-banner').classList.toggle('hidden', !demo);
+  state.loading = false;
+  setRefreshBtns(false);
+  inferSessions(state.data.conversations); // assign session_id to every record
+  updateTopBar();
+  buildFilterOptions();
+  applyFilters();
+  renderCurrentTab();
+  hideSkeleton();
+}
+
+function setRefreshBtns(loading) {
+  const r = document.getElementById('btn-refresh'), h = document.getElementById('btn-hard-refresh');
+  r.disabled = h.disabled = loading;
+  r.textContent = loading ? 'Loading…' : 'Refresh';
+}
+
+function showSkeleton() {
+  if (state.tab !== 'dashboard') return;
+  document.getElementById('dash-skeleton').classList.remove('hidden');
+  document.getElementById('dash-content').classList.add('hidden');
+}
+
+function hideSkeleton() {
+  document.getElementById('dash-skeleton').classList.add('hidden');
+  document.getElementById('dash-content').classList.remove('hidden');
+}
+
+function updateTopBar() {
+  if (!state.data) return;
+  const diff = Math.round((Date.now() - new Date(state.data.meta.generated_at)) / 60000);
+  document.getElementById('last-updated').textContent = diff < 1 ? 'Updated just now' : `Updated ${diff} min ago`;
+  const n = state.data.meta.cache.new_conversations_fetched;
+  const badge = document.getElementById('new-badge');
+  badge.textContent = `+${n} new`;
+  badge.classList.toggle('hidden', n <= 0);
+}
+
+// === SESSION INFERENCE ===
+// Groups questions into sessions: same user_id, gap < SESSION_GAP_MS = new session
+const SESSION_GAP_MS = 30 * 60 * 1000; // 30 minutes
+
+function inferSessions(conversations) {
+  // Sort each user's questions chronologically, then walk forward assigning session IDs
+  const byUser = {};
+  conversations.forEach(c => {
+    const key = c.user_id || c.email;
+    (byUser[key] = byUser[key] || []).push(c);
+  });
+
+  let idx = 0;
+  Object.values(byUser).forEach(userConvs => {
+    userConvs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    let currentId = `sess-${idx++}`;
+    let prevMs = null;
+    userConvs.forEach(c => {
+      const ms = new Date(c.created_at).getTime();
+      if (prevMs !== null && (ms - prevMs) > SESSION_GAP_MS) {
+        currentId = `sess-${idx++}`;
+      }
+      c.session_id = currentId;
+      prevMs = ms;
+    });
+  });
+}
+
+// === FILTERING ===
+function getDateBounds() {
+  const now = new Date(); now.setHours(23,59,59,999);
+  if (state.filters.dateRange === 'all') return { from: new Date(0), to: now };
+  if (state.filters.dateRange === 'custom') {
+    const from = state.filters.dateFrom ? new Date(state.filters.dateFrom) : new Date(0);
+    const to = state.filters.dateTo ? new Date(state.filters.dateTo) : new Date(now);
+    to.setHours(23,59,59,999); return { from, to };
+  }
+  const days = parseInt(state.filters.dateRange, 10);
+  const from = new Date(now); from.setDate(from.getDate()-days); from.setHours(0,0,0,0);
+  return { from, to: now };
+}
+
+function applyFilters() {
+  if (!state.data) return;
+  const { from, to } = getDateBounds();
+  const search = state.filters.search.toLowerCase();
+  state.filtered = state.data.conversations.filter(c => {
+    const d = new Date(c.created_at);
+    if (d < from || d > to) return false;
+    if (state.filters.topics.length && !state.filters.topics.includes(c.topic)) return false;
+    if (state.filters.companies.length && !state.filters.companies.includes(c.company)) return false;
+    if (search && !c.question.toLowerCase().includes(search) && !c.answer.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  updateFilterUI(); saveFilters();
+}
+
+function updateFilterUI() {
+  const { topics, companies } = state.filters;
+  document.getElementById('topic-dd-label').textContent = topics.length===0?'All Topics':topics.length===1?topics[0]:`${topics.length} topics`;
+  document.getElementById('company-dd-label').textContent = companies.length===0?'All Companies':companies.length===1?companies[0]:`${companies.length} companies`;
+  const hasFilter = topics.length||companies.length||state.filters.search||state.filters.dateRange!=='30';
+  document.getElementById('filter-count').textContent = `${state.filtered.length} conversations`;
+  document.getElementById('filter-count').classList.toggle('hidden', !(hasFilter && state.data));
+  document.getElementById('clear-all-btn').classList.toggle('hidden', !(hasFilter && state.data));
+}
+
+function buildFilterOptions() {
+  if (!state.data) return;
+  const topics = [...new Set(state.data.conversations.map(c=>c.topic))].sort();
+  const companies = [...new Set(state.data.conversations.map(c=>c.company))].sort();
+  const mkOpts = (items, cls, checked) => items.map(v => `
+    <label class="flex items-center gap-2.5 px-3 py-1.5 hover:bg-slate-50 cursor-pointer">
+      <input type="checkbox" class="${cls} rounded border-slate-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0" value="${esc(v)}" ${checked.includes(v)?'checked':''}>
+      <span class="text-sm text-slate-700">${esc(v)}</span>
+    </label>`).join('');
+  document.getElementById('topic-dd-options').innerHTML = mkOpts(topics,'topic-cb',state.filters.topics);
+  document.getElementById('company-dd-options').innerHTML = mkOpts(companies,'company-cb',state.filters.companies);
+  document.querySelectorAll('.topic-cb').forEach(cb => cb.addEventListener('change', () => {
+    state.filters.topics = [...document.querySelectorAll('.topic-cb:checked')].map(c=>c.value);
+    applyFilters(); renderCurrentTab();
+  }));
+  document.querySelectorAll('.company-cb').forEach(cb => cb.addEventListener('change', () => {
+    state.filters.companies = [...document.querySelectorAll('.company-cb:checked')].map(c=>c.value);
+    applyFilters(); renderCurrentTab();
+  }));
+}
+
+function clearFilter(type) {
+  state.filters[type] = [];
+  document.querySelectorAll(type==='topics'?'.topic-cb':'.company-cb').forEach(cb=>cb.checked=false);
+  applyFilters(); renderCurrentTab();
+}
+
+function clearAllFilters() {
+  state.filters = { dateRange:'30', dateFrom:null, dateTo:null, topics:[], companies:[], search:'' };
+  document.getElementById('filter-daterange').value = '30';
+  document.getElementById('filter-search').value = '';
+  document.getElementById('custom-date-range').classList.add('hidden');
+  document.getElementById('custom-date-range').classList.remove('flex');
+  document.querySelectorAll('.topic-cb,.company-cb').forEach(cb=>cb.checked=false);
+  applyFilters(); renderCurrentTab();
+}
+
+function saveFilters() {
+  try { localStorage.setItem('askprysmian_v2_filters', JSON.stringify(state.filters)); } catch(_){}
+}
+
+function loadFilters() {
+  try {
+    const s = localStorage.getItem('askprysmian_v2_filters');
+    if (!s) return;
+    const f = JSON.parse(s); Object.assign(state.filters, f);
+    document.getElementById('filter-daterange').value = f.dateRange||'30';
+    if (f.dateRange==='custom') { const cr=document.getElementById('custom-date-range'); cr.classList.remove('hidden'); cr.classList.add('flex'); if(f.dateFrom) document.getElementById('filter-date-from').value=f.dateFrom; if(f.dateTo) document.getElementById('filter-date-to').value=f.dateTo; }
+    if (f.search) document.getElementById('filter-search').value = f.search;
+  } catch(_){}
+}
+
+// === RENDERING: DASHBOARD TAB ===
+function renderDashboard() {
+  if (!state.data) return;
+  const convs = state.filtered;
+  const total = convs.length;
+  const uniqUsers = new Set(convs.map(c=>c.email)).size;
+  const answered = convs.filter(c=>c.has_answer).length;
+  const ar = total>0?(answered/total*100).toFixed(1):'0.0';
+
+  const { from, to } = getDateBounds();
+  const span = to - from;
+  const prevConvs = state.data.conversations.filter(c => { const d=new Date(c.created_at); return d>=new Date(from-span)&&d<from; });
+  const delta = (cur,prev) => { if(!prev) return ''; const p=(((cur-prev)/prev)*100).toFixed(0); return `${p>0?'+':''}${p}% vs prior period`; };
+
+  const totalSessions = new Set(convs.map(c => c.session_id).filter(Boolean)).size || total;
+  const multiQ = convs.filter(c => convs.filter(x => x.session_id === c.session_id).length > 1);
+  const multiSessions = new Set(multiQ.map(c => c.session_id)).size;
+  document.getElementById('kpi-total').textContent = totalSessions.toLocaleString();
+  document.getElementById('kpi-total-delta').textContent =
+    `${total} questions · ${multiSessions} multi-turn`;
+  document.getElementById('kpi-users').textContent = uniqUsers.toLocaleString();
+  document.getElementById('kpi-users-delta').textContent = delta(uniqUsers, new Set(prevConvs.map(c=>c.email)).size);
+
+  const arEl = document.getElementById('kpi-answer-rate');
+  arEl.textContent = `${ar}%`;
+  arEl.className = 'text-3xl font-semibold tracking-tight '+(+ar>=90?'text-emerald-600':+ar>=70?'text-amber-500':'text-red-500');
+  document.getElementById('kpi-answer-rate-sub').textContent = `${answered} of ${total} answered`;
+
+  const topicCounts = {};
+  convs.forEach(c=>{ topicCounts[c.topic]=(topicCounts[c.topic]||0)+1; });
+  const topEntries = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('kpi-top-topic').textContent = topEntries.length?topEntries[0][0]:'—';
+  document.getElementById('kpi-top-topic-pct').textContent = topEntries.length?`${((topEntries[0][1]/total)*100).toFixed(0)}% of conversations`:'';
+
+  renderCharts(convs);
+  renderRecentActivity(convs);
+}
+
+function renderRecentActivity(convs) {
+  const items = [...convs].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,10);
+  const el = document.getElementById('recent-activity');
+  if (!items.length) { el.innerHTML='<p class="text-sm text-slate-400 py-4 text-center">No conversations in this period.</p>'; return; }
+  el.innerHTML = items.map(c=>`
+    <div class="py-3 cursor-pointer hover:bg-slate-50 -mx-2 px-2 rounded-md transition-colors" onclick="toggleInline(this)">
+      <div class="flex items-start justify-between gap-4">
+        <div class="min-w-0 flex-1">
+          <p class="text-sm text-slate-800 line-clamp-1">${esc(c.question)}</p>
+          <p class="text-xs text-slate-400 mt-0.5">${esc(c.first_name)} ${esc(c.last_name)} · ${esc(c.company)} · ${fmtDate(c.created_at)}</p>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">${badge(c.topic,true)}${answerIcon(c.has_answer)}</div>
+      </div>
+      <div class="conv-body hidden mt-2 pt-2 border-t border-slate-100">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Answer</p>
+        <p class="text-sm text-slate-600 line-clamp-3">${esc(c.answer)}</p>
+      </div>
+    </div>`).join('');
+}
+
+// === RENDERING: USERS TAB ===
+function renderUsers() {
+  const convs = state.filtered;
+  const search = state.usersSearch.toLowerCase();
+  const map = {};
+  convs.forEach(c => {
+    if (!map[c.email]) map[c.email] = { name:`${c.first_name} ${c.last_name}`, email:c.email, company:c.company, count:0, last_active:c.created_at, topics:{}, answered:0 };
+    const u = map[c.email]; u.count++;
+    if (new Date(c.created_at)>new Date(u.last_active)) u.last_active=c.created_at;
+    u.topics[c.topic]=(u.topics[c.topic]||0)+1;
+    if (c.has_answer) u.answered++;
+  });
+
+  let users = Object.values(map).map(u => ({ ...u, top_topic:Object.entries(u.topics).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—', answer_rate:u.count?+(u.answered/u.count*100).toFixed(1):0 }));
+  if (search) users = users.filter(u=>u.name.toLowerCase().includes(search)||u.email.toLowerCase().includes(search));
+
+  const { col, dir } = state.sort.users;
+  users.sort((a,b)=>{ let av=a[col],bv=b[col]; if(col==='last_active'){av=new Date(av);bv=new Date(bv);}else if(col==='name'){av=av.toLowerCase();bv=bv.toLowerCase();}else{av=+av||0;bv=+bv||0;} return dir==='asc'?(av>bv?1:-1):(av<bv?1:-1); });
+
+  const tbody = document.getElementById('users-tbody');
+  const empty = document.getElementById('users-empty');
+  if (!users.length) { tbody.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = users.map(u => {
+    const arc = +u.answer_rate>=90?'text-emerald-600':+u.answer_rate>=70?'text-amber-500':'text-red-500';
+    return `
+      <tr class="hover:bg-slate-50 cursor-pointer transition-colors user-row" onclick="toggleUserRow(this,'${esc(u.email)}')">
+        <td class="px-4 py-3"><div class="flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 text-slate-300 expand-icon flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          <span class="font-medium text-slate-800">${esc(u.name)}</span></div></td>
+        <td class="px-4 py-3 text-slate-500 text-sm">${esc(u.email)}</td>
+        <td class="px-4 py-3 text-slate-500 text-sm">${esc(u.company)}</td>
+        <td class="px-4 py-3 text-right font-medium text-slate-800">${u.count}</td>
+        <td class="px-4 py-3 text-sm text-slate-500">${fmtDate(u.last_active)}</td>
+        <td class="px-4 py-3">${badge(u.top_topic,true)}</td>
+        <td class="px-4 py-3 text-right font-medium ${arc}">${u.answer_rate}%</td>
+      </tr>
+      <tr class="user-detail-row hidden bg-slate-50/60"><td colspan="7" class="px-8 py-3">
+        <div id="uexpand-${slug(u.email)}" class="space-y-2"></div>
+      </td></tr>`;
+  }).join('');
+
+  document.querySelectorAll('[data-sort-table="users"]').forEach(th=>{
+    const ind=th.querySelector('.sort-ind-u'); if(!ind) return;
+    ind.textContent = th.dataset.sortCol===col?(dir==='asc'?' ↑':' ↓'):'';
+  });
+}
+
+function toggleUserRow(row, email) {
+  const detailRow = row.nextElementSibling;
+  const icon = row.querySelector('.expand-icon');
+  const wasOpen = !detailRow.classList.contains('hidden');
+  document.querySelectorAll('.user-detail-row').forEach(r=>r.classList.add('hidden'));
+  document.querySelectorAll('.user-row .expand-icon').forEach(i=>i.style.transform='');
+  if (!wasOpen) {
+    detailRow.classList.remove('hidden'); icon.style.transform='rotate(90deg)';
+    const container = document.getElementById(`uexpand-${slug(email)}`);
+    const items = state.filtered.filter(c=>c.email===email).slice(0,10);
+    container.innerHTML = items.length ? items.map(c=>`
+      <div class="bg-white border border-slate-200 rounded-md p-3 cursor-pointer hover:border-blue-200 transition-colors" onclick="toggleInline(this)">
+        <div class="flex items-start justify-between gap-4">
+          <p class="text-sm text-slate-700 line-clamp-1">${esc(c.question)}</p>
+          <div class="flex items-center gap-2 flex-shrink-0">${badge(c.topic,true)}<span class="text-xs text-slate-400">${fmtDate(c.created_at)}</span>${answerIcon(c.has_answer)}</div>
+        </div>
+        <div class="conv-body hidden mt-2 pt-2 border-t border-slate-100 space-y-2">
+          <p class="text-sm text-slate-700">${esc(c.question)}</p>
+          <p class="text-sm text-slate-500">${esc(c.answer)}</p>
+        </div>
+      </div>`).join('') : '<p class="text-sm text-slate-400">No conversations.</p>';
+  }
+}
+
+// === RENDERING: COMPANIES TAB ===
+function renderCompanies() {
+  const convs = state.filtered;
+  const search = state.companiesSearch.toLowerCase();
+  const map = {};
+  convs.forEach(c => {
+    if (!map[c.company]) map[c.company] = { company:c.company, count:0, users:new Set(), topics:{}, answered:0, last_active:c.created_at, tokens:0 };
+    const co = map[c.company]; co.count++;
+    co.users.add(c.email);
+    co.topics[c.topic]=(co.topics[c.topic]||0)+1;
+    if (c.has_answer) co.answered++;
+    if (new Date(c.created_at)>new Date(co.last_active)) co.last_active=c.created_at;
+    co.tokens += +c.total_tokens||0;
+  });
+
+  let rows = Object.values(map).map(co => ({ ...co, users:co.users.size, top_topic:Object.entries(co.topics).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—', answer_rate:co.count?+(co.answered/co.count*100).toFixed(1):0, avg_tokens:co.count?Math.round(co.tokens/co.count):0 }));
+  if (search) rows = rows.filter(r=>r.company.toLowerCase().includes(search));
+
+  const { col, dir } = state.sort.companies;
+  rows.sort((a,b)=>{ let av=a[col],bv=b[col]; if(col==='last_active'){av=new Date(av);bv=new Date(bv);}else if(col==='company'){av=av.toLowerCase();bv=bv.toLowerCase();}else{av=+av||0;bv=+bv||0;} return dir==='asc'?(av>bv?1:-1):(av<bv?1:-1); });
+
+  const tbody = document.getElementById('companies-tbody');
+  const empty = document.getElementById('companies-empty');
+  if (!rows.length) { tbody.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = rows.map(r => {
+    const arc = +r.answer_rate>=90?'text-emerald-600':+r.answer_rate>=70?'text-amber-500':'text-red-500';
+    return `
+      <tr class="hover:bg-slate-50 cursor-pointer transition-colors co-row" onclick="toggleCompanyRow(this,'${esc(r.company)}')">
+        <td class="px-4 py-3"><div class="flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 text-slate-300 expand-icon flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          <span class="font-medium text-slate-800">${esc(r.company)}</span></div></td>
+        <td class="px-4 py-3 text-right font-medium text-slate-800">${r.count.toLocaleString()}</td>
+        <td class="px-4 py-3 text-right text-slate-700">${r.users}</td>
+        <td class="px-4 py-3 text-right font-medium ${arc}">${r.answer_rate}%</td>
+        <td class="px-4 py-3">${badge(r.top_topic,true)}</td>
+        <td class="px-4 py-3 text-sm text-slate-500">${fmtDate(r.last_active)}</td>
+        <td class="px-4 py-3 text-right text-slate-600">${r.avg_tokens.toLocaleString()}</td>
+      </tr>
+      <tr class="co-detail-row hidden bg-slate-50/60"><td colspan="7" class="px-8 py-3">
+        <div id="coexpand-${slug(r.company)}" class="space-y-2"></div>
+      </td></tr>`;
+  }).join('');
+
+  document.querySelectorAll('[data-sort-table="companies"]').forEach(th=>{
+    const ind=th.querySelector('.sort-ind-c'); if(!ind) return;
+    ind.textContent = th.dataset.sortCol===col?(dir==='asc'?' ↑':' ↓'):'';
+  });
+}
+
+function toggleCompanyRow(row, company) {
+  const detailRow = row.nextElementSibling;
+  const icon = row.querySelector('.expand-icon');
+  const wasOpen = !detailRow.classList.contains('hidden');
+  document.querySelectorAll('.co-detail-row').forEach(r=>r.classList.add('hidden'));
+  document.querySelectorAll('.co-row .expand-icon').forEach(i=>i.style.transform='');
+  if (!wasOpen) {
+    detailRow.classList.remove('hidden'); icon.style.transform='rotate(90deg)';
+    const container = document.getElementById(`coexpand-${slug(company)}`);
+    // Show users of this company with their stats
+    const userMap = {};
+    state.filtered.filter(c=>c.company===company).forEach(c=>{
+      if (!userMap[c.email]) userMap[c.email]={name:`${c.first_name} ${c.last_name}`,email:c.email,count:0,answered:0,last_active:c.created_at};
+      const u=userMap[c.email]; u.count++;
+      if(c.has_answer) u.answered++;
+      if(new Date(c.created_at)>new Date(u.last_active)) u.last_active=c.created_at;
+    });
+    const usersArr = Object.values(userMap).sort((a,b)=>b.count-a.count);
+    container.innerHTML = usersArr.length ? `
+      <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">${usersArr.length} user${usersArr.length!==1?'s':''}</p>
+      <div class="grid grid-cols-2 gap-2">
+        ${usersArr.map(u=>`
+          <div class="bg-white border border-slate-200 rounded-md px-3 py-2 flex items-center justify-between gap-4">
+            <div><p class="text-sm font-medium text-slate-700">${esc(u.name)}</p><p class="text-xs text-slate-400">${esc(u.email)}</p></div>
+            <div class="text-right flex-shrink-0"><p class="text-sm font-medium text-slate-800">${u.count}</p><p class="text-xs text-slate-400">conv.</p></div>
+          </div>`).join('')}
+      </div>` : '<p class="text-sm text-slate-400">No users found.</p>';
+  }
+}
+
+// === RENDERING: TOPICS TAB ===
+function renderTopics() {
+  const convs = state.filtered;
+  const map = {};
+  convs.forEach(c=>{
+    if(!map[c.topic]) map[c.topic]={topic:c.topic,count:0,users:new Set(),answered:0,tokens:0};
+    map[c.topic].count++; map[c.topic].users.add(c.email);
+    if(c.has_answer) map[c.topic].answered++;
+    map[c.topic].tokens+=+c.total_tokens||0;
+  });
+  let rows = Object.values(map).map(t=>({ topic:t.topic, count:t.count, pct:convs.length?+(t.count/convs.length*100).toFixed(1):0, users:t.users.size, answer_rate:t.count?+(t.answered/t.count*100).toFixed(1):0, avg_tokens:t.count?Math.round(t.tokens/t.count):0 }));
+
+  const { col, dir } = state.sort.topics;
+  rows.sort((a,b)=>{ const av=typeof a[col]==='string'?a[col].toLowerCase():+a[col]; const bv=typeof b[col]==='string'?b[col].toLowerCase():+b[col]; return dir==='asc'?(av>bv?1:-1):(av<bv?1:-1); });
+
+  const tbody = document.getElementById('topics-tbody');
+  const empty = document.getElementById('topics-empty');
+  if (!rows.length) { tbody.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = rows.map(r=>{
+    const arc = +r.answer_rate>=90?'text-emerald-600':+r.answer_rate>=70?'text-amber-500':'text-red-500';
+    return `
+      <tr class="hover:bg-slate-50 cursor-pointer transition-colors topic-row" onclick="toggleTopicRow(this,'${esc(r.topic)}')">
+        <td class="px-4 py-3"><div class="flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 text-slate-300 expand-icon flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          ${badge(r.topic)}</div></td>
+        <td class="px-4 py-3 text-right font-medium text-slate-800">${r.count.toLocaleString()}</td>
+        <td class="px-4 py-3 text-right text-slate-500">${r.pct}%</td>
+        <td class="px-4 py-3 text-right text-slate-700">${r.users}</td>
+        <td class="px-4 py-3 text-right font-medium ${arc}">${r.answer_rate}%</td>
+        <td class="px-4 py-3 text-right text-slate-600">${r.avg_tokens.toLocaleString()}</td>
+      </tr>
+      <tr class="topic-detail-row hidden bg-slate-50/60"><td colspan="6" class="px-8 py-3">
+        <div id="texpand-${slug(r.topic)}" class="space-y-2"></div>
+      </td></tr>`;
+  }).join('');
+
+  document.querySelectorAll('[data-sort-table="topics"]').forEach(th=>{
+    const ind=th.querySelector('.sort-ind-t'); if(!ind) return;
+    ind.textContent = th.dataset.sortCol===col?(dir==='asc'?' ↑':' ↓'):'';
+  });
+}
+
+function toggleTopicRow(row, topic) {
+  const detailRow = row.nextElementSibling;
+  const icon = row.querySelector('.expand-icon');
+  const wasOpen = !detailRow.classList.contains('hidden');
+  document.querySelectorAll('.topic-detail-row').forEach(r=>r.classList.add('hidden'));
+  document.querySelectorAll('.topic-row .expand-icon').forEach(i=>i.style.transform='');
+  if (!wasOpen) {
+    detailRow.classList.remove('hidden'); icon.style.transform='rotate(90deg)';
+    const container = document.getElementById(`texpand-${slug(topic)}`);
+    const items = state.filtered.filter(c=>c.topic===topic).slice(0,5);
+    container.innerHTML = items.length ? items.map(c=>`
+      <div class="bg-white border border-slate-200 rounded-md p-3 cursor-pointer hover:border-blue-200 transition-colors" onclick="toggleInline(this)">
+        <div class="flex items-start justify-between gap-4">
+          <p class="text-sm text-slate-700 line-clamp-1">${esc(c.question)}</p>
+          <div class="flex items-center gap-2 flex-shrink-0"><span class="text-xs text-slate-400">${fmtDate(c.created_at)}</span>${answerIcon(c.has_answer)}</div>
+        </div>
+        <div class="conv-body hidden mt-2 pt-2 border-t border-slate-100 space-y-2">
+          <p class="text-sm text-slate-700">${esc(c.question)}</p>
+          <p class="text-sm text-slate-500">${esc(c.answer)}</p>
+        </div>
+      </div>`).join('') : '<p class="text-sm text-slate-400">No conversations.</p>';
+  }
+}
+
+// === RENDERING: CONTENT TAB (unanswered) ===
+function renderContent() {
+  const gaps = state.filtered.filter(c=>!c.has_answer);
+  document.getElementById('gaps-count').textContent = gaps.length.toLocaleString();
+  renderGapsTrend(gaps);
+  const tbody = document.getElementById('gaps-tbody');
+  const empty = document.getElementById('gaps-empty');
+  if (!gaps.length) { tbody.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  tbody.innerHTML = gaps.map(c=>`
+    <tr class="hover:bg-slate-50 cursor-pointer transition-colors gap-row" onclick="toggleGapRow(this)">
+      <td class="px-4 py-3 max-w-md"><div class="flex items-start gap-2">
+        <svg class="w-3.5 h-3.5 text-slate-300 expand-icon flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        <div class="min-w-0">
+          <p class="text-sm text-slate-700 line-clamp-1">${esc(c.question)}</p>
+          <div class="gap-body hidden mt-2 pt-2 border-t border-slate-100 space-y-2">
+            <div><p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Full Question</p><p class="text-sm text-slate-700">${esc(c.question)}</p></div>
+            <div><p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Bot response (failed)</p><p class="text-sm text-slate-400 italic">${esc(c.answer)}</p></div>
+          </div>
+        </div>
+      </div></td>
+      <td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap">${esc(c.first_name)} ${esc(c.last_name)}</td>
+      <td class="px-4 py-3 text-sm text-slate-500 whitespace-nowrap">${fmtDate(c.created_at)}</td>
+      <td class="px-4 py-3">${badge(c.topic,true)}</td>
+    </tr>`).join('');
+}
+
+function toggleGapRow(row) {
+  const body = row.querySelector('.gap-body'), icon = row.querySelector('.expand-icon');
+  const open = body.classList.toggle('hidden');
+  icon.style.transform = open?'':'rotate(90deg)';
+}
+
+function exportGapsCSV() {
+  const gaps = state.filtered.filter(c=>!c.has_answer);
+  const csv = [['Date','Time','First Name','Last Name','Email','Company','Topic','Question','Bot Response'], ...gaps.map(c=>[c.date,c.time,c.first_name,c.last_name,c.email,c.company,c.topic,`"${c.question.replace(/"/g,'""')}"`,`"${c.answer.replace(/"/g,'""')}"`])].map(r=>r.join(',')).join('\n');
+  dlCsv(csv, `askprysmian-gaps-${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+// === RENDERING: CONVERSATIONS TAB ===
+function renderConversations() {
+  const convs = state.filtered;
+
+  // Group by session_id; fallback to treating each record as its own session
+  const sessionMap = {};
+  convs.forEach(c => {
+    const key = c.session_id || c.id;
+    if (!sessionMap[key]) sessionMap[key] = [];
+    sessionMap[key].push(c);
+  });
+
+  // Build session objects, sorted within each session by time
+  let sessions = Object.values(sessionMap).map(qs => {
+    qs.sort((a,b) => new Date(a.created_at)-new Date(b.created_at));
+    const first = qs[0];
+    const answeredCount = qs.filter(q=>q.has_answer).length;
+    const topics = [...new Set(qs.map(q=>q.topic))];
+    return {
+      session_id: first.session_id || first.id,
+      first_name: first.first_name, last_name: first.last_name,
+      email: first.email, company: first.company,
+      created_at: first.created_at,
+      question_count: qs.length,
+      answered: answeredCount,
+      topics,
+      questions: qs,
+      is_multi: qs.length > 1
+    };
+  });
+
+  // Sort sessions
+  const { col, dir } = state.sort.conversations;
+  sessions.sort((a,b) => {
+    let av = col==='created_at' ? new Date(a.created_at) : col==='name' ? `${a.first_name} ${a.last_name}`.toLowerCase() : String(a[col]||'').toLowerCase();
+    let bv = col==='created_at' ? new Date(b.created_at) : col==='name' ? `${b.first_name} ${b.last_name}`.toLowerCase() : String(b[col]||'').toLowerCase();
+    return dir==='asc' ? (av>bv?1:-1) : (av<bv?1:-1);
+  });
+
+  const multiCount = sessions.filter(s=>s.is_multi).length;
+  const singleCount = sessions.filter(s=>!s.is_multi).length;
+  document.getElementById('conv-count-label').textContent =
+    `${sessions.length} conversation${sessions.length!==1?'s':''} — ${multiCount} multi-turn, ${singleCount} single question${singleCount!==1?'s':''}`;
+
+  const tbody = document.getElementById('conversations-tbody');
+  const empty = document.getElementById('conversations-empty');
+  if (!sessions.length) { tbody.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = sessions.map((s,i) => {
+    const arc = s.question_count>0 ? (s.answered/s.question_count>=0.9?'text-emerald-600':s.answered/s.question_count>=0.7?'text-amber-500':'text-red-500') : 'text-slate-400';
+    const typeLabel = s.is_multi
+      ? `<span class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-100">
+           <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+           Multi-turn · ${s.question_count} questions
+         </span>`
+      : `<span class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-500">
+           <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+           Single question
+         </span>`;
+    const topicBadges = s.topics.slice(0,2).map(t=>badge(t,true)).join(' ') + (s.topics.length>2?` <span class="text-xs text-slate-400">+${s.topics.length-2}</span>`:'');
+
+    return `
+      <tr class="hover:bg-slate-50 cursor-pointer transition-colors sess-row${s.is_multi?' font-normal':''}" onclick="toggleSessRow(this, ${i})">
+        <td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap">${fmtDateShort(s.created_at)}</td>
+        <td class="px-4 py-3 text-sm font-medium text-slate-800 whitespace-nowrap">${esc(s.first_name)} ${esc(s.last_name)}</td>
+        <td class="px-4 py-3 text-sm text-slate-500 whitespace-nowrap">${esc(s.company)}</td>
+        <td class="px-4 py-3">${typeLabel}</td>
+        <td class="px-4 py-3"><div class="flex flex-wrap gap-1">${topicBadges}</div></td>
+        <td class="px-4 py-3 text-sm font-medium ${arc} text-right whitespace-nowrap">
+          ${s.answered}/${s.question_count} answered
+        </td>
+        <td class="px-4 py-3 text-center">
+          <svg class="w-3.5 h-3.5 text-slate-300 expand-icon inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </td>
+      </tr>
+      <tr class="sess-detail-row hidden bg-slate-50/60" data-sess="${i}">
+        <td colspan="7" class="px-8 py-4">
+          <div class="space-y-3">
+            ${s.questions.map((q,qi) => `
+              <div class="bg-white border border-slate-200 rounded-md p-3 cursor-pointer hover:border-blue-200 transition-colors" onclick="toggleInline(this)">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="min-w-0 flex-1">
+                    ${s.is_multi ? `<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Q${qi+1} · ${esc(q.time)}</p>` : ''}
+                    <p class="text-sm text-slate-700 line-clamp-1">${esc(q.question)}</p>
+                  </div>
+                  <div class="flex items-center gap-2 flex-shrink-0">${badge(q.topic,true)}${answerIcon(q.has_answer)}</div>
+                </div>
+                <div class="conv-body hidden mt-2 pt-2 border-t border-slate-100 space-y-2">
+                  <div><p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Question</p><p class="text-sm text-slate-700">${esc(q.question)}</p></div>
+                  <div><p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Answer</p><p class="text-sm text-slate-600">${esc(q.answer)}</p></div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  // Store sessions for CSV export
+  renderConversations._sessions = sessions;
+
+  document.querySelectorAll('[data-sort-table="conversations"]').forEach(th=>{
+    const ind=th.querySelector('.sort-ind-q'); if(!ind) return;
+    ind.textContent = th.dataset.sortCol===col?(dir==='asc'?' ↑':' ↓'):'';
+  });
+}
+
+function toggleSessRow(row, idx) {
+  const detailRow = row.nextElementSibling;
+  const icon = row.querySelector('.expand-icon');
+  const wasOpen = !detailRow.classList.contains('hidden');
+  document.querySelectorAll('.sess-detail-row').forEach(r=>r.classList.add('hidden'));
+  document.querySelectorAll('.sess-row .expand-icon').forEach(i=>i.style.transform='');
+  if (!wasOpen) {
+    detailRow.classList.remove('hidden');
+    icon.style.transform = 'rotate(90deg)';
+  }
+}
+
+function exportConversationsCSV() {
+  const sessions = renderConversations._sessions || [];
+  const rows = [['Session ID','Type','Date','Time','User','Email','Company','Topic','Answered','Question','Answer']];
+  sessions.forEach(s => {
+    s.questions.forEach(q => {
+      rows.push([s.session_id, s.is_multi?'Conversation':'Single question', q.date, q.time, `${q.first_name} ${q.last_name}`, q.email, q.company, q.topic, q.has_answer?'Yes':'No', `"${q.question.replace(/"/g,'""')}"`, `"${q.answer.replace(/"/g,'""')}"`]);
+    });
+  });
+  dlCsv(rows.map(r=>r.join(',')).join('\n'), `askprysmian-conversations-${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+// === CHARTS ===
+const TOPIC_COLORS = {
+  "Product Specifications":          { bg:'#E6F3FF', fg:'#66B8FF' },
+  "Datasheets & Documentation":      { bg:'#EDFBEF', fg:'#9DE3A7' },
+  "Pricing & Availability":          { bg:'#EEF1F7', fg:'#B8C4D8' },
+  "Installation & Technical Support":{ bg:'#E6F3FF', fg:'#4DB8FF' },
+  "Standards & Certifications":      { bg:'#EDFBEF', fg:'#5FCE6D' },
+  "Competitor & Comparison":         { bg:'#EEF1F7', fg:'#A8B3CC' },
+  "Other":                           { bg:'#F5F7FB', fg:'#7A9CC0' }
+};
+const FALLBACK_PALETTES = [['#E6F3FF','#66B8FF'],['#EDFBEF','#9DE3A7'],['#EEF1F7','#B8C4D8'],['#E6F3FF','#4DB8FF'],['#EDFBEF','#5FCE6D'],['#EEF1F7','#A8B3CC'],['#F5F7FB','#7A9CC0'],['#F0F8FF','#0093FF']];
+
+function topicColor(topic) {
+  if (TOPIC_COLORS[topic]) return TOPIC_COLORS[topic];
+  let h=0; for(let i=0;i<topic.length;i++) h=(h*31+topic.charCodeAt(i))>>>0;
+  const [bg,fg]=FALLBACK_PALETTES[h%FALLBACK_PALETTES.length]; return {bg,fg};
+}
+
+function destroyChart(key) { if(charts[key]){charts[key].destroy();delete charts[key];} }
+
+function renderCharts(convs) { renderTimeline(convs); renderDonut(convs); renderTopUsers(convs); }
+
+function renderTimeline(convs) {
+  destroyChart('timeline');
+  const canvas=document.getElementById('chart-timeline'); if(!canvas) return;
+  const {from,to}=getDateBounds();
+  const days=Math.min(Math.max(Math.round((to-from)/86400000),1),90);
+  const labels=[],dataQ=[],dataC=[];
+  for(let i=days-1;i>=0;i--){
+    const d=new Date(to); d.setDate(d.getDate()-i);
+    const key=d.toISOString().slice(0,10);
+    labels.push(key.slice(5).replace('-','/'));
+    const dayConvs=convs.filter(c=>c.created_at.startsWith(key));
+    dataQ.push(dayConvs.length);
+    dataC.push(new Set(dayConvs.map(c=>c.session_id).filter(Boolean)).size || dayConvs.length);
+  }
+  const pr=days<=14?3:1;
+  charts.timeline = new Chart(canvas,{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Questions', data:dataQ, borderColor:'#0093FF', backgroundColor:'rgba(0,147,255,0.07)', fill:true, tension:0.35, borderWidth:2, pointRadius:pr, pointBackgroundColor:'#0093FF'},
+      {label:'Conversations', data:dataC, borderColor:'#5FCE6D', backgroundColor:'rgba(95,206,109,0.0)', fill:false, tension:0.35, borderWidth:2, pointRadius:pr, pointBackgroundColor:'#5FCE6D', borderDash:[]}
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:true, position:'top', align:'end', labels:{font:{size:10}, color:'#2D354A', boxWidth:12, padding:12, usePointStyle:true, pointStyle:'circle'}},
+        tooltip:{mode:'index', intersect:false}
+      },
+      scales:{
+        x:{grid:{display:false}, ticks:{font:{size:10}, color:'#94a3b8', maxTicksLimit:9}},
+        y:{grid:{color:'#F5F7FB'}, ticks:{font:{size:10}, color:'#94a3b8', precision:0}, beginAtZero:true}
+      }
+    }
+  });
+}
+
+function renderDonut(convs) {
+  destroyChart('donut');
+  const canvas=document.getElementById('chart-donut'); if(!canvas) return;
+  const counts={}; convs.forEach(c=>{counts[c.topic]=(counts[c.topic]||0)+1;});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]); if(!sorted.length) return;
+  const total=sorted.reduce((s,[,n])=>s+n,0);
+  charts.donut = new Chart(canvas,{ type:'doughnut', data:{labels:sorted.map(([t])=>t),datasets:[{data:sorted.map(([,n])=>n),backgroundColor:sorted.map(([t])=>topicColor(t).fg),borderWidth:0,hoverOffset:4}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{font:{size:10},color:'#475569',boxWidth:10,padding:6,generateLabels:ch=>ch.data.labels.map((lbl,i)=>({text:`${lbl.slice(0,22)} (${((ch.data.datasets[0].data[i]/total)*100).toFixed(0)}%)`,fillStyle:ch.data.datasets[0].backgroundColor[i],index:i}))}},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} (${((ctx.raw/total)*100).toFixed(1)}%)`}}}} });
+}
+
+let _topUsersData = { conversations: [], questions: [] };
+
+function renderTopUsers(convs) {
+  destroyChart('topUsers');
+  const byUser = {};
+  convs.forEach(c => {
+    const key = c.email || `${c.first_name} ${c.last_name}`;
+    const name = `${c.first_name||''} ${c.last_name||''}`.trim();
+    if (!byUser[key]) byUser[key] = { name, questions: 0, sessions: new Set() };
+    byUser[key].questions++;
+    if (c.session_id) byUser[key].sessions.add(c.session_id);
+  });
+  const users = Object.values(byUser);
+  _topUsersData.conversations = [...users].sort((a,b) => (b.sessions.size||b.questions)-(a.sessions.size||a.questions))
+    .map(u => ({ name: u.name, count: u.sessions.size || u.questions }));
+  _topUsersData.questions = [...users].sort((a,b) => b.questions-a.questions)
+    .map(u => ({ name: u.name, count: u.questions }));
+  switchTopUsersTab('conversations');
+}
+
+function switchTopUsersTab(tab) {
+  const tbody = document.getElementById('top-users-tbody'); if (!tbody) return;
+  document.getElementById('tub-col-label').textContent = tab === 'conversations' ? 'Conversations' : 'Questions';
+  ['conv','quest'].forEach(t => {
+    const btn = document.getElementById(`tub-${t}`);
+    const active = (t==='conv' && tab==='conversations') || (t==='quest' && tab==='questions');
+    btn.style.background = active ? '#0093FF' : 'transparent';
+    btn.style.color = active ? '#fff' : '#7A869E';
+  });
+  tbody.innerHTML = _topUsersData[tab].map((u,i) => `
+    <tr class="hover:bg-slate-50 border-b border-slate-100 last:border-0">
+      <td class="py-1.5 pr-2 text-xs text-slate-400">${i+1}</td>
+      <td class="py-1.5 text-sm text-slate-800">${esc(u.name)}</td>
+      <td class="py-1.5 text-sm font-medium text-slate-800 text-right">${u.count}</td>
+    </tr>`).join('');
+}
+
+function renderGapsTrend(gaps) {
+  destroyChart('gapsTrend');
+  const canvas=document.getElementById('chart-gaps-trend'); if(!canvas) return;
+  const labels=[],data=[];
+  for(let i=29;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const key=d.toISOString().slice(0,10); labels.push(key.slice(5)); data.push(gaps.filter(c=>c.created_at.startsWith(key)).length); }
+  charts.gapsTrend = new Chart(canvas,{ type:'line', data:{labels,datasets:[{data,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.1)',fill:true,tension:0.3,pointRadius:0,borderWidth:1.5}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false,beginAtZero:true}}} });
+}
+
+// === HELPERS ===
+function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function slug(s) { return String(s).replace(/[^a-zA-Z0-9]/g,'-').toLowerCase(); }
+function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function fmtDateShort(iso) { return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function badge(topic,small=false) { const c=topicColor(topic); const cls=small?'text-xs px-1.5 py-0.5':'text-sm px-2 py-0.5'; return `<span class="inline-block rounded-md font-medium whitespace-nowrap ${cls}" style="background:${c.bg};color:${c.fg}">${esc(topic)}</span>`; }
+function answerIcon(has) { return has?`<svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`:`<svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`; }
+function toggleInline(el) { const b=el.querySelector('.conv-body'); if(b) b.classList.toggle('hidden'); }
+function dlCsv(csv,name) { const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:name}); a.click(); URL.revokeObjectURL(a.href); }
+
+function showFetchError(reason) {
+  const banner = document.getElementById('demo-banner');
+  const text = document.getElementById('demo-banner-text');
+  const link = document.getElementById('demo-banner-link');
+  banner.classList.remove('hidden');
+  text.textContent = `Webhook error: ${reason} — showing sample data.`;
+  link.href = WEBHOOK_URL;
+  link.classList.remove('hidden');
+}
+
+function renderCurrentTab() {
+  const t = state.tab;
+  if      (t==='dashboard')     renderDashboard();
+  else if (t==='users')         renderUsers();
+  else if (t==='companies')     renderCompanies();
+  else if (t==='topics')        renderTopics();
+  else if (t==='content')       renderContent();
+  else if (t==='conversations') renderConversations();
+}
+
+// === INIT ===
+(function init() {
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.tab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('border-blue-600', b===btn);
+        b.classList.toggle('text-blue-600', b===btn);
+        b.classList.toggle('border-transparent', b!==btn);
+        b.classList.toggle('text-slate-500', b!==btn);
+      });
+      document.querySelectorAll('.tab-content').forEach(t=>t.classList.add('hidden'));
+      document.getElementById(`tab-${state.tab}`).classList.remove('hidden');
+      renderCurrentTab();
+    });
+  });
+
+  // Dropdowns
+  document.addEventListener('click', ()=>{ document.getElementById('topic-dd').classList.add('hidden'); document.getElementById('company-dd').classList.add('hidden'); });
+  document.getElementById('topic-dd-btn').addEventListener('click', e=>{ e.stopPropagation(); document.getElementById('topic-dd').classList.toggle('hidden'); document.getElementById('company-dd').classList.add('hidden'); });
+  document.getElementById('company-dd-btn').addEventListener('click', e=>{ e.stopPropagation(); document.getElementById('company-dd').classList.toggle('hidden'); document.getElementById('topic-dd').classList.add('hidden'); });
+  document.getElementById('topic-dd').addEventListener('click', e=>e.stopPropagation());
+  document.getElementById('company-dd').addEventListener('click', e=>e.stopPropagation());
+
+  // Date range
+  document.getElementById('filter-daterange').addEventListener('change', e=>{
+    state.filters.dateRange=e.target.value;
+    const cr=document.getElementById('custom-date-range');
+    if(e.target.value==='custom'){cr.classList.remove('hidden');cr.classList.add('flex');}else{cr.classList.add('hidden');cr.classList.remove('flex');}
+    applyFilters(); renderCurrentTab();
+  });
+  document.getElementById('filter-date-from').addEventListener('change', e=>{ state.filters.dateFrom=e.target.value; applyFilters(); renderCurrentTab(); });
+  document.getElementById('filter-date-to').addEventListener('change', e=>{ state.filters.dateTo=e.target.value; applyFilters(); renderCurrentTab(); });
+
+  // Global search
+  let st;
+  document.getElementById('filter-search').addEventListener('input', e=>{ clearTimeout(st); st=setTimeout(()=>{ state.filters.search=e.target.value; applyFilters(); renderCurrentTab(); },180); });
+
+  // Tab-local searches
+  document.getElementById('users-search').addEventListener('input', e=>{ state.usersSearch=e.target.value; renderUsers(); });
+  document.getElementById('companies-search').addEventListener('input', e=>{ state.companiesSearch=e.target.value; renderCompanies(); });
+
+  // Sortable table headers
+  document.querySelectorAll('[data-sort-table]').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      const table=th.dataset.sortTable, col=th.dataset.sortCol;
+      const s=state.sort[table];
+      s.dir = s.col===col?(s.dir==='asc'?'desc':'asc'):'desc';
+      s.col = col;
+      if(table==='topics')        renderTopics();
+      else if(table==='users')    renderUsers();
+      else if(table==='companies')renderCompanies();
+      else if(table==='conversations') renderConversations();
+    });
+  });
+
+  loadFilters();
+  fetchData(false);
+})();
+</script>
+</body>
+</html>
