@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metys — Product Intelligence. Sales Acceleration.</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-50: #fafafa;
+      --gray-100: #f4f4f5;
+      --gray-200: #e4e4e7;
+      --gray-400: #a1a1aa;
+      --gray-600: #52525b;
+      --gray-800: #27272a;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --radius: 12px;
+      --radius-sm: 6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: var(--gray-800); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: var(--white);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: #eff6ff;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      max-width: 820px;
+      margin-bottom: 24px;
+      color: var(--black);
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--gray-600);
+      max-width: 600px;
+      margin-bottom: 48px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--gray-600);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 16px 24px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      border: 1px solid var(--gray-200);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--gray-400); color: var(--black); }
+
+    .hero-note {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      border: none;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    /* SECTION WRAPPER */
+    section { padding: 96px 24px; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 18px;
+      color: var(--gray-600);
+      max-width: 580px;
+      line-height: 1.6;
+    }
+
+    /* STATS BAR */
+    .stats {
+      background: var(--black);
+      padding: 64px 24px;
+    }
+
+    .stats-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 24px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-value {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat-value.positive { color: #4ade80; }
+    .stat-value.negative { color: #f87171; }
+
+    .stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 8px;
+    }
+
+    /* HOW IT WORKS */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 64px;
+    }
+
+    .step-card {
+      padding: 40px;
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      position: relative;
+    }
+
+    .step-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .step-card p {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    /* ENGINES */
+    .engines {
+      background: var(--gray-50);
+    }
+
+    .engines-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .engine-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      padding: 48px;
+      transition: box-shadow 0.2s;
+    }
+    .engine-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.06); }
+
+    .engine-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .engine-card h3 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .engine-audience {
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feature-list li {
+      font-size: 15px;
+      color: var(--gray-600);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .feature-list li::before {
+      content: '→';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .flywheel {
+      margin-top: 48px;
+      padding: 28px 32px;
+      background: #eff6ff;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent);
+    }
+
+    .flywheel p {
+      font-size: 15px;
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+
+    .flywheel strong { color: var(--black); }
+
+    /* CASE STUDY */
+    .case-study {
+      background: var(--gray-50);
+    }
+
+    .case-study-card {
+      margin-top: 64px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .case-study-body {
+      padding: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .case-study-company {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .company-logo-box {
+      width: 52px;
+      height: 52px;
+      background: var(--white);
+      border-radius: 8px;
+      border: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .company-logo-box img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .company-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.5px;
+    }
+
+    .company-sector {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .case-study-quote {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.45;
+      letter-spacing: -0.3px;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    .case-study-context {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+
+    .case-study-metrics {
+      background: var(--gray-50);
+      padding: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 32px;
+      border-left: 1px solid var(--gray-200);
+    }
+
+    .case-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .case-metric-value {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .case-metric-label {
+      font-size: 14px;
+      color: var(--gray-600);
+    }
+
+    .case-metric-divider {
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    .case-study-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .case-tag {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-600);
+      background: var(--gray-100);
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--gray-200);
+    }
+
+    @media (max-width: 900px) {
+      .case-study-card { grid-template-columns: 1fr; }
+      .case-study-metrics { border-left: none; border-top: 1px solid var(--gray-200); }
+    }
+
+    /* TRUST PILLARS */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .pillar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pillar-icon {
+      font-size: 28px;
+    }
+
+    .pillar h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .pillar p {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.55;
+    }
+
+    /* TIERS */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .tier-card {
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      padding: 48px;
+      background: var(--white);
+    }
+
+    .tier-card.featured {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .tier-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .tier-card.featured .tier-badge {
+      color: #93c5fd;
+    }
+
+    .tier-card h3 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .tier-card.featured h3 { color: var(--white); }
+
+    .tier-subtitle {
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .tier-card.featured .tier-subtitle { color: rgba(255,255,255,0.4); }
+
+    .tier-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tier-list li {
+      font-size: 15px;
+      color: var(--gray-600);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .tier-card.featured .tier-list li { color: rgba(255,255,255,0.65); }
+
+    .tier-list li .check {
+      color: #22c55e;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pricing-note {
+      margin-top: 48px;
+      padding: 28px 32px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      font-size: 15px;
+      color: var(--gray-600);
+    }
+
+    .pricing-note strong { color: var(--black); }
+
+    /* FORM SECTION */
+    .form-section {
+      background: var(--black);
+      padding: 96px 24px;
+    }
+
+    .form-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .form-copy .section-label { color: #93c5fd; }
+
+    .form-copy .section-title { color: var(--white); }
+
+    .form-copy .section-sub { color: rgba(255,255,255,0.55); }
+
+    .form-steps {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .form-step {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      flex-shrink: 0;
+    }
+
+    .form-step-body h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .form-step-body p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+    }
+
+    /* FORM */
+    form {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    input, select, textarea {
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--black);
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+      background: var(--white);
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .submit-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .submit-btn:active { transform: none; }
+
+    .form-disclaimer {
+      font-size: 12px;
+      color: var(--gray-400);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* SUCCESS MESSAGE */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-msg .success-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .success-msg h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .success-msg p {
+      font-size: 15px;
+      color: var(--gray-600);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 48px 24px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .footer-by {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .footer-by strong { color: var(--gray-600); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .stat:nth-child(3) { border-right: none; }
+      .stat:nth-child(4) { border-right: 1px solid rgba(255,255,255,0.08); }
+
+      .how-grid { grid-template-columns: 1fr; }
+      .engines-grid { grid-template-columns: 1fr; }
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .form-wrapper { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .pillars-grid { grid-template-columns: 1fr; }
+      form { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Metys</a>
+    <a href="#demo" class="nav-cta">Book a Demo →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">Product Intelligence · Sales Acceleration</div>
+    <h1>Your product knowledge,<br><span>always at hand</span></h1>
+    <p>Metys turns your technical documentation and business data into instant, accurate, and scalable sales expertise — for manufacturers and distributors of complex products.</p>
+    <div class="hero-actions">
+      <a href="#demo" class="btn-primary">Book a personalized demo →</a>
+      <a href="#how" class="btn-ghost">See how it works</a>
+    </div>
+    <p class="hero-note">30-min demo on your real documentation. No commitment.</p>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-value positive">+20%</div>
+        <div class="stat-label">Quote turnaround speed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value negative">−70%</div>
+        <div class="stat-label">Product selection errors</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value negative">−60%</div>
+        <div class="stat-label">New hire training time</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value positive">+10%</div>
+        <div class="stat-label">Avg order value (upsell)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value positive">+30%</div>
+        <div class="stat-label">E-commerce conversion</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">Three steps to<br>expert-level answers</h2>
+
+      <div class="how-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Upload your documentation</h3>
+          <p>Catalogs, spec sheets, manuals, price lists, standards, competitive data. PDF, Word, Excel, CSV — any format you already have.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>Ask like you'd ask an expert</h3>
+          <p>"Which cable meets EN 50525 for underground install?" — "Alternatives to competitor product X?" Natural language, technical precision.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Get the answer in seconds</h3>
+          <p>With an exact reference to the source document. No fabrication. No hallucination. Only your data — traceable every time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ENGINES -->
+  <section class="engines">
+    <div class="container">
+      <div class="section-label">Dual-engine architecture</div>
+      <h2 class="section-title">One platform,<br>two engines</h2>
+      <p class="section-sub">No competitor offers this. Internal and customer-facing AI built on the same knowledge base.</p>
+
+      <div class="engines-grid">
+        <div class="engine-card">
+          <div class="engine-tag">Engine #1 — Internal</div>
+          <h3>AI Sales Expert</h3>
+          <p class="engine-audience">Sales teams, branches, agents, field reps</p>
+          <ul class="feature-list">
+            <li>Instant answers on specs, standards, compatibility</li>
+            <li>Contextual upsell & cross-sell recommendations</li>
+            <li>Competitive comparisons in clear, actionable language</li>
+            <li>Quote-ready summaries generated in seconds</li>
+            <li>New hires answer like a veteran from day one</li>
+            <li>Real-time stock & delivery times (ERP integration)</li>
+            <li>Consistent answers across all locations & channels</li>
+          </ul>
+        </div>
+
+        <div class="engine-card">
+          <div class="engine-tag">Engine #2 — Customer-facing</div>
+          <h3>AI Product Finder</h3>
+          <p class="engine-audience">Website, e-commerce, customer branded app</p>
+          <ul class="feature-list">
+            <li>Natural and technical language product search</li>
+            <li>Intelligent clarifying questions to refine results</li>
+            <li>Standards-compliant product suggestions</li>
+            <li>Ready-to-order bills of materials (BOM)</li>
+            <li>Automatic alternatives when items are out of stock</li>
+            <li>Accessories, complements & cross-sell proposals</li>
+            <li>Integrates into checkout or quote request flow</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flywheel">
+        <p><strong>Flywheel effect:</strong> Greater internal accuracy → better customer answers → richer market insights → optimized sales scripts → more sales & data → ever-smarter AI.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- CASE STUDY -->
+  <section class="case-study">
+    <div class="container">
+      <div class="section-label">Case Study</div>
+      <h2 class="section-title">Already in production<br>at enterprise scale</h2>
+      <p class="section-sub">Metys is not a proof of concept. It is live in a complex, multinational environment.</p>
+
+      <div class="case-study-card">
+        <div class="case-study-body">
+          <div class="case-study-company">
+            <div class="company-logo-box">
+              <img src="prysmian-logo.png" alt="Prysmian logo" />
+            </div>
+            <div>
+              <div class="company-name">Prysmian</div>
+              <div class="company-sector">Cables &amp; Connectivity · Fortune 500 · North America</div>
+            </div>
+          </div>
+
+          <p class="case-study-quote">"From thousands of product specs and technical standards to instant, traceable answers — without a single hallucination."</p>
+
+          <p class="case-study-context">Prysmian, world leader in cables and connectivity systems, deployed Metys to support its North American sales force. Technical reps can now query the full product catalog, standards compliance, and competitive alternatives in natural language — with every answer linked to the exact source document.</p>
+
+          <div class="case-study-tags">
+            <span class="case-tag">AI Sales Expert</span>
+            <span class="case-tag">ERP Integration</span>
+            <span class="case-tag">Multi-location</span>
+            <span class="case-tag">Standards compliance</span>
+            <span class="case-tag">White-label</span>
+          </div>
+        </div>
+
+        <div class="case-study-metrics">
+          <div class="case-metric">
+            <div class="case-metric-value">−70%</div>
+            <div class="case-metric-label">Reduction in product selection errors by the sales force</div>
+          </div>
+          <div class="case-metric-divider"></div>
+          <div class="case-metric">
+            <div class="case-metric-value">−60%</div>
+            <div class="case-metric-label">Decrease in new hire onboarding time</div>
+          </div>
+          <div class="case-metric-divider"></div>
+          <div class="case-metric">
+            <div class="case-metric-value">+20%</div>
+            <div class="case-metric-label">Faster quote turnaround across all branches</div>
+          </div>
+          <div class="case-metric-divider"></div>
+          <div class="case-metric">
+            <div class="case-metric-value">Hours</div>
+            <div class="case-metric-label">Time to go live from documentation upload</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- TRUST PILLARS -->
+  <section>
+    <div class="container">
+      <div class="section-label">Why Metys</div>
+      <h2 class="section-title">Built for enterprise.<br>Ready in hours.</h2>
+
+      <div class="pillars-grid">
+        <div class="pillar">
+          <div class="pillar-icon">🔒</div>
+          <h4>Absolute Privacy</h4>
+          <p>No document trains external models. Closed environment. Answers are always traceable to the source.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">⚡</div>
+          <h4>Operational in Hours</h4>
+          <p>Zero infrastructure. No tech team needed. Upload your docs and start getting answers the same day.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📊</div>
+          <h4>Measurable ROI</h4>
+          <p>Real-time analytics. Every interaction tracked and quantifiable — from day one.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🏷️</div>
+          <h4>White-Label Native</h4>
+          <p>Custom domain & branding. For end users, it's your company's own product.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🏭</div>
+          <h4>In Production</h4>
+          <p>Validated with a multinational cables & connectivity manufacturer in North America.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- TIERS -->
+  <section>
+    <div class="container">
+      <div class="section-label">Plans</div>
+      <h2 class="section-title">Start fast,<br>scale when ready</h2>
+      <p class="section-sub">Unlimited users. Unlimited documents. You only pay for what you use.</p>
+
+      <div class="tiers-grid">
+        <div class="tier-card">
+          <div class="tier-badge">Metys Base</div>
+          <h3>Immediate value,<br>minimal setup</h3>
+          <p class="tier-subtitle">Everything you need to start</p>
+          <ul class="tier-list">
+            <li><span class="check">✓</span> Catalog, spec sheet & manual indexing</li>
+            <li><span class="check">✓</span> AI assistant with source tracing</li>
+            <li><span class="check">✓</span> Multi-format: PDF, Word, Excel, CSV</li>
+            <li><span class="check">✓</span> Analytics dashboard & KPIs</li>
+            <li><span class="check">✓</span> Enterprise authentication (WorkOS)</li>
+            <li><span class="check">✓</span> Folder organization & access control</li>
+          </ul>
+        </div>
+
+        <div class="tier-card featured">
+          <div class="tier-badge">Metys Advanced</div>
+          <h3>Enterprise-grade<br>intelligence</h3>
+          <p class="tier-subtitle">Everything in Base, plus</p>
+          <ul class="tier-list">
+            <li><span class="check">★</span> CRM integration & purchase history</li>
+            <li><span class="check">★</span> ERP: real-time stock & delivery times</li>
+            <li><span class="check">★</span> Dynamic per-customer pricing</li>
+            <li><span class="check">★</span> Data-driven upsell & cross-sell</li>
+            <li><span class="check">★</span> Enterprise SLA & audit trail</li>
+            <li><span class="check">★</span> Full multi-location deployment</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="pricing-note">
+        <strong>Pricing based exclusively on questions asked.</strong><br>
+        Unlimited users and documents at no extra cost. Tiered thresholds for full cost predictability.
+      </p>
+    </div>
+  </section>
+
+  <!-- DEMO FORM -->
+  <div class="form-section" id="demo">
+    <div class="form-wrapper">
+      <!-- LEFT COPY -->
+      <div class="form-copy">
+        <div class="section-label">Get started</div>
+        <h2 class="section-title" style="color: #fff;">Book your<br>personalized demo</h2>
+        <p class="section-sub">See Metys in action on your actual products — not a generic demo.</p>
+
+        <div class="form-steps">
+          <div class="form-step">
+            <div class="form-step-num">1</div>
+            <div class="form-step-body">
+              <h4>Personalized Demo</h4>
+              <p>30 min with your real documentation. Metys in action on your actual products.</p>
+            </div>
+          </div>
+          <div class="form-step">
+            <div class="form-step-num">2</div>
+            <div class="form-step-body">
+              <h4>Pilot — 4 to 6 weeks</h4>
+              <p>500–2,000 SKUs, agreed impact metrics. No long-term commitment.</p>
+            </div>
+          </div>
+          <div class="form-step">
+            <div class="form-step-num">3</div>
+            <div class="form-step-body">
+              <h4>Scale & Integrate</h4>
+              <p>Full catalog, CRM/ERP integration, multi-location rollout. The data speaks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div>
+        <form id="demoForm" novalidate>
+          <p class="form-title">Request a demo</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First name *</label>
+              <input type="text" id="firstName" name="firstName" placeholder="Marco" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last name *</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Rossi" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Work email *</label>
+            <input type="email" id="email" name="email" placeholder="marco@company.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="company">Company *</label>
+            <input type="text" id="company" name="company" placeholder="Acme Distribution" required />
+          </div>
+
+          <div class="form-group">
+            <label for="role">Your role</label>
+            <select id="role" name="role">
+              <option value="" disabled selected>Select your role</option>
+              <option>VP Sales / Commercial Director</option>
+              <option>VP Digital / eCommerce</option>
+              <option>Head of Operations</option>
+              <option>Product Manager</option>
+              <option>IT / CTO</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="skus">Approx. number of SKUs</label>
+            <select id="skus" name="skus">
+              <option value="" disabled selected>Select a range</option>
+              <option>< 1,000</option>
+              <option>1,000 – 10,000</option>
+              <option>10,000 – 50,000</option>
+              <option>50,000 – 300,000</option>
+              <option>> 300,000</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="notes">Anything you'd like us to know</label>
+            <textarea id="notes" name="notes" placeholder="Current challenges, integrations, timeline…"></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            Book my demo →
+          </button>
+
+          <p class="form-disclaimer">No spam. No long-term commitment. We'll reach out within one business day.</p>
+        </form>
+
+        <div class="success-msg" id="successMsg">
+          <div class="success-icon">✅</div>
+          <h3>Request received!</h3>
+          <p>We'll reach out within one business day to schedule your personalized demo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">Metys</span>
+      <span class="footer-by">Product knowledge is your most valuable asset. <strong>Metys makes it accessible, scalable, and measurable.</strong></span>
+      <span class="footer-by">By <strong>Corporate Hangar</strong> · 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('demoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const required = this.querySelectorAll('[required]');
+      let valid = true;
+
+      required.forEach(field => {
+        field.style.borderColor = '';
+        if (!field.value.trim()) {
+          field.style.borderColor = '#ef4444';
+          valid = false;
+        }
+      });
+
+      if (!valid) return;
+
+      // Collect form data
+      const data = new FormData(this);
+      const payload = Object.fromEntries(data.entries());
+      console.log('Demo request:', payload);
+
+      // Show success state
+      this.style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    });
+
+    // Remove error highlight on input
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      el.addEventListener('input', function() {
+        this.style.borderColor = '';
+      });
+    });
+  </script>
+
+</body>
+</html>
