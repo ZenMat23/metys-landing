@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Subtle grid texture -->
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Blue glow blob -->
+  <ellipse cx="200" cy="315" rx="320" ry="260" fill="#2563eb" opacity="0.07"/>
+
+  <!-- Logo mark -->
+  <rect x="80" y="215" width="100" height="100" rx="22" fill="#2563eb"/>
+  <path d="M101 299V231l28 28 28-28v68" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Wordmark -->
+  <text x="204" y="293" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="72" font-weight="800" fill="#ffffff" letter-spacing="-3">Metys</text>
+
+  <!-- Divider -->
+  <rect x="80" y="338" width="520" height="1.5" fill="#ffffff" opacity="0.1"/>
+
+  <!-- Tagline -->
+  <text x="80" y="378" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="24" font-weight="400" fill="#a1a1aa" letter-spacing="0">Product Intelligence · Sales Acceleration</text>
+
+  <!-- Right side accent — stats -->
+  <g transform="translate(760, 180)">
+    <rect width="360" height="270" rx="16" fill="#ffffff" opacity="0.04"/>
+    <rect width="360" height="270" rx="16" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.08"/>
+
+    <text x="32" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="52" font-weight="800" fill="#4ade80" letter-spacing="-2">+20%</text>
+    <text x="32" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="15" fill="#a1a1aa">Faster quote turnaround</text>
+
+    <rect x="32" y="118" width="296" height="1" fill="#ffffff" opacity="0.07"/>
+
+    <text x="32" y="165" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="52" font-weight="800" fill="#f87171" letter-spacing="-2">−70%</text>
+    <text x="32" y="195" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="15" fill="#a1a1aa">Product selection errors</text>
+
+    <rect x="32" y="213" width="296" height="1" fill="#ffffff" opacity="0.07"/>
+
+    <text x="32" y="253" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="600" fill="#ffffff" opacity="0.9">kablee.com · Corporate Hangar</text>
+  </g>
+</svg>
