@@ -55,6 +55,44 @@
       text-decoration: none;
     }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+    }
+
+    .lang-btn {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gray-400);
+      background: transparent;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .lang-btn.active {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .lang-btn:not(.active):hover { color: var(--gray-600); }
+
     .nav-cta {
       display: inline-flex;
       align-items: center;
@@ -252,7 +290,6 @@
       background: var(--gray-50);
       border-radius: var(--radius);
       border: 1px solid var(--gray-200);
-      position: relative;
     }
 
     .step-num {
@@ -278,9 +315,7 @@
     }
 
     /* ENGINES */
-    .engines {
-      background: var(--gray-50);
-    }
+    .engines { background: var(--gray-50); }
 
     .engines-grid {
       display: grid;
@@ -363,9 +398,7 @@
     .flywheel strong { color: var(--black); }
 
     /* CASE STUDY */
-    .case-study {
-      background: var(--gray-50);
-    }
+    .case-study { background: var(--gray-50); }
 
     .case-study-card {
       margin-top: 64px;
@@ -448,11 +481,7 @@
       border-left: 1px solid var(--gray-200);
     }
 
-    .case-metric {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .case-metric { display: flex; flex-direction: column; gap: 4px; }
 
     .case-metric-value {
       font-size: 40px;
@@ -462,15 +491,9 @@
       color: var(--accent);
     }
 
-    .case-metric-label {
-      font-size: 14px;
-      color: var(--gray-600);
-    }
+    .case-metric-label { font-size: 14px; color: var(--gray-600); }
 
-    .case-metric-divider {
-      height: 1px;
-      background: var(--gray-200);
-    }
+    .case-metric-divider { height: 1px; background: var(--gray-200); }
 
     .case-study-tags {
       display: flex;
@@ -488,11 +511,6 @@
       border: 1px solid var(--gray-200);
     }
 
-    @media (max-width: 900px) {
-      .case-study-card { grid-template-columns: 1fr; }
-      .case-study-metrics { border-left: none; border-top: 1px solid var(--gray-200); }
-    }
-
     /* TRUST PILLARS */
     .pillars-grid {
       display: grid;
@@ -501,27 +519,10 @@
       margin-top: 64px;
     }
 
-    .pillar {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .pillar-icon {
-      font-size: 28px;
-    }
-
-    .pillar h4 {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--black);
-    }
-
-    .pillar p {
-      font-size: 13px;
-      color: var(--gray-600);
-      line-height: 1.55;
-    }
+    .pillar { display: flex; flex-direction: column; gap: 12px; }
+    .pillar-icon { font-size: 28px; }
+    .pillar h4 { font-size: 15px; font-weight: 700; color: var(--black); }
+    .pillar p { font-size: 13px; color: var(--gray-600); line-height: 1.55; }
 
     /* TIERS */
     .tiers-grid {
@@ -552,9 +553,7 @@
       margin-bottom: 12px;
     }
 
-    .tier-card.featured .tier-badge {
-      color: #93c5fd;
-    }
+    .tier-card.featured .tier-badge { color: #93c5fd; }
 
     .tier-card h3 {
       font-size: 28px;
@@ -629,9 +628,7 @@
     }
 
     .form-copy .section-label { color: #93c5fd; }
-
     .form-copy .section-title { color: var(--white); }
-
     .form-copy .section-sub { color: rgba(255,255,255,0.55); }
 
     .form-steps {
@@ -641,10 +638,7 @@
       gap: 28px;
     }
 
-    .form-step {
-      display: flex;
-      gap: 20px;
-    }
+    .form-step { display: flex; gap: 20px; }
 
     .form-step-num {
       width: 36px;
@@ -661,18 +655,8 @@
       flex-shrink: 0;
     }
 
-    .form-step-body h4 {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 4px;
-    }
-
-    .form-step-body p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.5;
-    }
+    .form-step-body h4 { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .form-step-body p { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.5; }
 
     /* FORM */
     form {
@@ -684,12 +668,7 @@
       gap: 20px;
     }
 
-    .form-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 8px;
-    }
+    .form-title { font-size: 20px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
 
     .form-row {
       display: grid;
@@ -697,17 +676,9 @@
       gap: 16px;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
 
-    label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gray-800);
-    }
+    label { font-size: 13px; font-weight: 600; color: var(--gray-800); }
 
     input, select, textarea {
       font-family: inherit;
@@ -751,42 +722,16 @@
     .submit-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
     .submit-btn:active { transform: none; }
 
-    .form-disclaimer {
-      font-size: 12px;
-      color: var(--gray-400);
-      text-align: center;
-      line-height: 1.5;
-    }
+    .form-disclaimer { font-size: 12px; color: var(--gray-400); text-align: center; line-height: 1.5; }
 
     /* SUCCESS MESSAGE */
-    .success-msg {
-      display: none;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .success-msg .success-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .success-msg h3 {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 8px;
-    }
-
-    .success-msg p {
-      font-size: 15px;
-      color: var(--gray-600);
-    }
+    .success-msg { display: none; text-align: center; padding: 40px 20px; }
+    .success-msg .success-icon { font-size: 48px; margin-bottom: 16px; }
+    .success-msg h3 { font-size: 22px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+    .success-msg p { font-size: 15px; color: var(--gray-600); }
 
     /* FOOTER */
-    footer {
-      padding: 48px 24px;
-      border-top: 1px solid var(--gray-200);
-    }
+    footer { padding: 48px 24px; border-top: 1px solid var(--gray-200); }
 
     .footer-inner {
       max-width: 1100px;
@@ -796,27 +741,16 @@
       justify-content: space-between;
     }
 
-    .footer-logo {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--black);
-    }
-
-    .footer-by {
-      font-size: 13px;
-      color: var(--gray-400);
-    }
-
+    .footer-logo { font-size: 18px; font-weight: 700; color: var(--black); }
+    .footer-by { font-size: 13px; color: var(--gray-400); }
     .footer-by strong { color: var(--gray-600); }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
       nav { padding: 0 24px; }
-
       .stats-grid { grid-template-columns: repeat(3, 1fr); }
       .stat:nth-child(3) { border-right: none; }
       .stat:nth-child(4) { border-right: 1px solid rgba(255,255,255,0.08); }
-
       .how-grid { grid-template-columns: 1fr; }
       .engines-grid { grid-template-columns: 1fr; }
       .pillars-grid { grid-template-columns: repeat(2, 1fr); }
@@ -824,6 +758,8 @@
       .form-wrapper { grid-template-columns: 1fr; gap: 48px; }
       .form-row { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+      .case-study-card { grid-template-columns: 1fr; }
+      .case-study-metrics { border-left: none; border-top: 1px solid var(--gray-200); }
     }
 
     @media (max-width: 600px) {
@@ -831,6 +767,7 @@
       .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
       .pillars-grid { grid-template-columns: 1fr; }
       form { padding: 32px 24px; }
+      .nav-right { gap: 12px; }
     }
   </style>
 </head>
@@ -839,19 +776,25 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">Metys</a>
-    <a href="#demo" class="nav-cta">Book a Demo →</a>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="it">IT</button>
+      </div>
+      <a href="#demo" class="nav-cta" data-i18n="nav_cta">Book a Demo →</a>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-tag">Product Intelligence · Sales Acceleration</div>
-    <h1>Your product knowledge,<br><span>always at hand</span></h1>
-    <p>Metys turns your technical documentation and business data into instant, accurate, and scalable sales expertise — for manufacturers and distributors of complex products.</p>
+    <div class="hero-tag" data-i18n="hero_tag">Product Intelligence · Sales Acceleration</div>
+    <h1 data-i18n-html="hero_h1">Your product knowledge,<br><span>always at hand</span></h1>
+    <p data-i18n="hero_p">Metys turns your technical documentation and business data into instant, accurate, and scalable sales expertise — for manufacturers and distributors of complex products.</p>
     <div class="hero-actions">
-      <a href="#demo" class="btn-primary">Book a personalized demo →</a>
-      <a href="#how" class="btn-ghost">See how it works</a>
+      <a href="#demo" class="btn-primary" data-i18n="btn_demo">Book a personalized demo →</a>
+      <a href="#how" class="btn-ghost" data-i18n="btn_how">See how it works</a>
     </div>
-    <p class="hero-note">30-min demo on your real documentation. No commitment.</p>
+    <p class="hero-note" data-i18n="hero_note">30-min demo on your real documentation. No commitment.</p>
   </section>
 
   <!-- STATS -->
@@ -859,23 +802,23 @@
     <div class="stats-grid">
       <div class="stat">
         <div class="stat-value positive">+20%</div>
-        <div class="stat-label">Quote turnaround speed</div>
+        <div class="stat-label" data-i18n="stat_1">Quote turnaround speed</div>
       </div>
       <div class="stat">
         <div class="stat-value negative">−70%</div>
-        <div class="stat-label">Product selection errors</div>
+        <div class="stat-label" data-i18n="stat_2">Product selection errors</div>
       </div>
       <div class="stat">
         <div class="stat-value negative">−60%</div>
-        <div class="stat-label">New hire training time</div>
+        <div class="stat-label" data-i18n="stat_3">New hire training time</div>
       </div>
       <div class="stat">
         <div class="stat-value positive">+10%</div>
-        <div class="stat-label">Avg order value (upsell)</div>
+        <div class="stat-label" data-i18n="stat_4">Avg order value (upsell)</div>
       </div>
       <div class="stat">
         <div class="stat-value positive">+30%</div>
-        <div class="stat-label">E-commerce conversion</div>
+        <div class="stat-label" data-i18n="stat_5">E-commerce conversion</div>
       </div>
     </div>
   </div>
@@ -883,24 +826,24 @@
   <!-- HOW IT WORKS -->
   <section id="how">
     <div class="container">
-      <div class="section-label">How it works</div>
-      <h2 class="section-title">Three steps to<br>expert-level answers</h2>
+      <div class="section-label" data-i18n="how_label">How it works</div>
+      <h2 class="section-title" data-i18n-html="how_title">Three steps to<br>expert-level answers</h2>
 
       <div class="how-grid">
         <div class="step-card">
           <div class="step-num">01</div>
-          <h3>Upload your documentation</h3>
-          <p>Catalogs, spec sheets, manuals, price lists, standards, competitive data. PDF, Word, Excel, CSV — any format you already have.</p>
+          <h3 data-i18n="step1_title">Upload your documentation</h3>
+          <p data-i18n="step1_p">Catalogs, spec sheets, manuals, price lists, standards, competitive data. PDF, Word, Excel, CSV — any format you already have.</p>
         </div>
         <div class="step-card">
           <div class="step-num">02</div>
-          <h3>Ask like you'd ask an expert</h3>
-          <p>"Which cable meets EN 50525 for underground install?" — "Alternatives to competitor product X?" Natural language, technical precision.</p>
+          <h3 data-i18n="step2_title">Ask like you'd ask an expert</h3>
+          <p data-i18n="step2_p">"Which cable meets EN 50525 for underground install?" — "Alternatives to competitor product X?" Natural language, technical precision.</p>
         </div>
         <div class="step-card">
           <div class="step-num">03</div>
-          <h3>Get the answer in seconds</h3>
-          <p>With an exact reference to the source document. No fabrication. No hallucination. Only your data — traceable every time.</p>
+          <h3 data-i18n="step3_title">Get the answer in seconds</h3>
+          <p data-i18n="step3_p">With an exact reference to the source document. No fabrication. No hallucination. Only your data — traceable every time.</p>
         </div>
       </div>
     </div>
@@ -911,44 +854,44 @@
   <!-- ENGINES -->
   <section class="engines">
     <div class="container">
-      <div class="section-label">Dual-engine architecture</div>
-      <h2 class="section-title">One platform,<br>two engines</h2>
-      <p class="section-sub">No competitor offers this. Internal and customer-facing AI built on the same knowledge base.</p>
+      <div class="section-label" data-i18n="engines_label">Dual-engine architecture</div>
+      <h2 class="section-title" data-i18n-html="engines_title">One platform,<br>two engines</h2>
+      <p class="section-sub" data-i18n="engines_sub">No competitor offers this. Internal and customer-facing AI built on the same knowledge base.</p>
 
       <div class="engines-grid">
         <div class="engine-card">
-          <div class="engine-tag">Engine #1 — Internal</div>
+          <div class="engine-tag" data-i18n="eng1_tag">Engine #1 — Internal</div>
           <h3>AI Sales Expert</h3>
-          <p class="engine-audience">Sales teams, branches, agents, field reps</p>
+          <p class="engine-audience" data-i18n="eng1_audience">Sales teams, branches, agents, field reps</p>
           <ul class="feature-list">
-            <li>Instant answers on specs, standards, compatibility</li>
-            <li>Contextual upsell & cross-sell recommendations</li>
-            <li>Competitive comparisons in clear, actionable language</li>
-            <li>Quote-ready summaries generated in seconds</li>
-            <li>New hires answer like a veteran from day one</li>
-            <li>Real-time stock & delivery times (ERP integration)</li>
-            <li>Consistent answers across all locations & channels</li>
+            <li data-i18n="eng1_f1">Instant answers on specs, standards, compatibility</li>
+            <li data-i18n="eng1_f2">Contextual upsell &amp; cross-sell recommendations</li>
+            <li data-i18n="eng1_f3">Competitive comparisons in clear, actionable language</li>
+            <li data-i18n="eng1_f4">Quote-ready summaries generated in seconds</li>
+            <li data-i18n="eng1_f5">New hires answer like a veteran from day one</li>
+            <li data-i18n="eng1_f6">Real-time stock &amp; delivery times (ERP integration)</li>
+            <li data-i18n="eng1_f7">Consistent answers across all locations &amp; channels</li>
           </ul>
         </div>
 
         <div class="engine-card">
-          <div class="engine-tag">Engine #2 — Customer-facing</div>
+          <div class="engine-tag" data-i18n="eng2_tag">Engine #2 — Customer-facing</div>
           <h3>AI Product Finder</h3>
-          <p class="engine-audience">Website, e-commerce, customer branded app</p>
+          <p class="engine-audience" data-i18n="eng2_audience">Website, e-commerce, customer branded app</p>
           <ul class="feature-list">
-            <li>Natural and technical language product search</li>
-            <li>Intelligent clarifying questions to refine results</li>
-            <li>Standards-compliant product suggestions</li>
-            <li>Ready-to-order bills of materials (BOM)</li>
-            <li>Automatic alternatives when items are out of stock</li>
-            <li>Accessories, complements & cross-sell proposals</li>
-            <li>Integrates into checkout or quote request flow</li>
+            <li data-i18n="eng2_f1">Natural and technical language product search</li>
+            <li data-i18n="eng2_f2">Intelligent clarifying questions to refine results</li>
+            <li data-i18n="eng2_f3">Standards-compliant product suggestions</li>
+            <li data-i18n="eng2_f4">Ready-to-order bills of materials (BOM)</li>
+            <li data-i18n="eng2_f5">Automatic alternatives when items are out of stock</li>
+            <li data-i18n="eng2_f6">Accessories, complements &amp; cross-sell proposals</li>
+            <li data-i18n="eng2_f7">Integrates into checkout or quote request flow</li>
           </ul>
         </div>
       </div>
 
       <div class="flywheel">
-        <p><strong>Flywheel effect:</strong> Greater internal accuracy → better customer answers → richer market insights → optimized sales scripts → more sales & data → ever-smarter AI.</p>
+        <p data-i18n-html="flywheel"><strong>Flywheel effect:</strong> Greater internal accuracy → better customer answers → richer market insights → optimized sales scripts → more sales &amp; data → ever-smarter AI.</p>
       </div>
     </div>
   </section>
@@ -958,9 +901,9 @@
   <!-- CASE STUDY -->
   <section class="case-study">
     <div class="container">
-      <div class="section-label">Case Study</div>
-      <h2 class="section-title">Already in production<br>at enterprise scale</h2>
-      <p class="section-sub">Metys is not a proof of concept. It is live in a complex, multinational environment.</p>
+      <div class="section-label" data-i18n="cs_label">Case Study</div>
+      <h2 class="section-title" data-i18n-html="cs_title">Already in production<br>at enterprise scale</h2>
+      <p class="section-sub" data-i18n="cs_sub">Metys is not a proof of concept. It is live in a complex, multinational environment.</p>
 
       <div class="case-study-card">
         <div class="case-study-body">
@@ -970,19 +913,19 @@
             </div>
             <div>
               <div class="company-name">Prysmian</div>
-              <div class="company-sector">Cables &amp; Connectivity · Fortune 500 · North America</div>
+              <div class="company-sector" data-i18n="cs_sector">Cables &amp; Connectivity · Fortune 500 · North America</div>
             </div>
           </div>
 
-          <p class="case-study-quote">"From thousands of product specs and technical standards to instant, traceable answers — without a single hallucination."</p>
+          <p class="case-study-quote" data-i18n="cs_quote">"From thousands of product specs and technical standards to instant, traceable answers — without a single hallucination."</p>
 
-          <p class="case-study-context">Prysmian, world leader in cables and connectivity systems, deployed Metys to support its North American sales force. Technical reps can now query the full product catalog, standards compliance, and competitive alternatives in natural language — with every answer linked to the exact source document.</p>
+          <p class="case-study-context" data-i18n="cs_context">Prysmian, world leader in cables and connectivity systems, deployed Metys to support its North American sales force. Technical reps can now query the full product catalog, standards compliance, and competitive alternatives in natural language — with every answer linked to the exact source document.</p>
 
           <div class="case-study-tags">
             <span class="case-tag">AI Sales Expert</span>
             <span class="case-tag">ERP Integration</span>
             <span class="case-tag">Multi-location</span>
-            <span class="case-tag">Standards compliance</span>
+            <span class="case-tag" data-i18n="cs_tag_std">Standards compliance</span>
             <span class="case-tag">White-label</span>
           </div>
         </div>
@@ -990,22 +933,22 @@
         <div class="case-study-metrics">
           <div class="case-metric">
             <div class="case-metric-value">−70%</div>
-            <div class="case-metric-label">Reduction in product selection errors by the sales force</div>
+            <div class="case-metric-label" data-i18n="cs_m1">Reduction in product selection errors by the sales force</div>
           </div>
           <div class="case-metric-divider"></div>
           <div class="case-metric">
             <div class="case-metric-value">−60%</div>
-            <div class="case-metric-label">Decrease in new hire onboarding time</div>
+            <div class="case-metric-label" data-i18n="cs_m2">Decrease in new hire onboarding time</div>
           </div>
           <div class="case-metric-divider"></div>
           <div class="case-metric">
             <div class="case-metric-value">+20%</div>
-            <div class="case-metric-label">Faster quote turnaround across all branches</div>
+            <div class="case-metric-label" data-i18n="cs_m3">Faster quote turnaround across all branches</div>
           </div>
           <div class="case-metric-divider"></div>
           <div class="case-metric">
-            <div class="case-metric-value">Hours</div>
-            <div class="case-metric-label">Time to go live from documentation upload</div>
+            <div class="case-metric-value" data-i18n="cs_m4_value">Hours</div>
+            <div class="case-metric-label" data-i18n="cs_m4">Time to go live from documentation upload</div>
           </div>
         </div>
       </div>
@@ -1017,34 +960,34 @@
   <!-- TRUST PILLARS -->
   <section>
     <div class="container">
-      <div class="section-label">Why Metys</div>
-      <h2 class="section-title">Built for enterprise.<br>Ready in hours.</h2>
+      <div class="section-label" data-i18n="pillars_label">Why Metys</div>
+      <h2 class="section-title" data-i18n-html="pillars_title">Built for enterprise.<br>Ready in hours.</h2>
 
       <div class="pillars-grid">
         <div class="pillar">
           <div class="pillar-icon">🔒</div>
-          <h4>Absolute Privacy</h4>
-          <p>No document trains external models. Closed environment. Answers are always traceable to the source.</p>
+          <h4 data-i18n="p1_title">Absolute Privacy</h4>
+          <p data-i18n="p1_p">No document trains external models. Closed environment. Answers are always traceable to the source.</p>
         </div>
         <div class="pillar">
           <div class="pillar-icon">⚡</div>
-          <h4>Operational in Hours</h4>
-          <p>Zero infrastructure. No tech team needed. Upload your docs and start getting answers the same day.</p>
+          <h4 data-i18n="p2_title">Operational in Hours</h4>
+          <p data-i18n="p2_p">Zero infrastructure. No tech team needed. Upload your docs and start getting answers the same day.</p>
         </div>
         <div class="pillar">
           <div class="pillar-icon">📊</div>
-          <h4>Measurable ROI</h4>
-          <p>Real-time analytics. Every interaction tracked and quantifiable — from day one.</p>
+          <h4 data-i18n="p3_title">Measurable ROI</h4>
+          <p data-i18n="p3_p">Real-time analytics. Every interaction tracked and quantifiable — from day one.</p>
         </div>
         <div class="pillar">
           <div class="pillar-icon">🏷️</div>
-          <h4>White-Label Native</h4>
-          <p>Custom domain & branding. For end users, it's your company's own product.</p>
+          <h4 data-i18n="p4_title">White-Label Native</h4>
+          <p data-i18n="p4_p">Custom domain &amp; branding. For end users, it's your company's own product.</p>
         </div>
         <div class="pillar">
           <div class="pillar-icon">🏭</div>
-          <h4>In Production</h4>
-          <p>Validated with a multinational cables & connectivity manufacturer in North America.</p>
+          <h4 data-i18n="p5_title">In Production</h4>
+          <p data-i18n="p5_p">Validated with a multinational cables &amp; connectivity manufacturer in North America.</p>
         </div>
       </div>
     </div>
@@ -1055,41 +998,41 @@
   <!-- TIERS -->
   <section>
     <div class="container">
-      <div class="section-label">Plans</div>
-      <h2 class="section-title">Start fast,<br>scale when ready</h2>
-      <p class="section-sub">Unlimited users. Unlimited documents. You only pay for what you use.</p>
+      <div class="section-label" data-i18n="tiers_label">Plans</div>
+      <h2 class="section-title" data-i18n-html="tiers_title">Start fast,<br>scale when ready</h2>
+      <p class="section-sub" data-i18n="tiers_sub">Unlimited users. Unlimited documents. You only pay for what you use.</p>
 
       <div class="tiers-grid">
         <div class="tier-card">
           <div class="tier-badge">Metys Base</div>
-          <h3>Immediate value,<br>minimal setup</h3>
-          <p class="tier-subtitle">Everything you need to start</p>
+          <h3 data-i18n-html="tier1_title">Immediate value,<br>minimal setup</h3>
+          <p class="tier-subtitle" data-i18n="tier1_sub">Everything you need to start</p>
           <ul class="tier-list">
-            <li><span class="check">✓</span> Catalog, spec sheet & manual indexing</li>
-            <li><span class="check">✓</span> AI assistant with source tracing</li>
-            <li><span class="check">✓</span> Multi-format: PDF, Word, Excel, CSV</li>
-            <li><span class="check">✓</span> Analytics dashboard & KPIs</li>
-            <li><span class="check">✓</span> Enterprise authentication (WorkOS)</li>
-            <li><span class="check">✓</span> Folder organization & access control</li>
+            <li><span class="check">✓</span> <span data-i18n="tier1_f1">Catalog, spec sheet &amp; manual indexing</span></li>
+            <li><span class="check">✓</span> <span data-i18n="tier1_f2">AI assistant with source tracing</span></li>
+            <li><span class="check">✓</span> <span data-i18n="tier1_f3">Multi-format: PDF, Word, Excel, CSV</span></li>
+            <li><span class="check">✓</span> <span data-i18n="tier1_f4">Analytics dashboard &amp; KPIs</span></li>
+            <li><span class="check">✓</span> <span data-i18n="tier1_f5">Enterprise authentication (WorkOS)</span></li>
+            <li><span class="check">✓</span> <span data-i18n="tier1_f6">Folder organization &amp; access control</span></li>
           </ul>
         </div>
 
         <div class="tier-card featured">
           <div class="tier-badge">Metys Advanced</div>
-          <h3>Enterprise-grade<br>intelligence</h3>
-          <p class="tier-subtitle">Everything in Base, plus</p>
+          <h3 data-i18n-html="tier2_title">Enterprise-grade<br>intelligence</h3>
+          <p class="tier-subtitle" data-i18n="tier2_sub">Everything in Base, plus</p>
           <ul class="tier-list">
-            <li><span class="check">★</span> CRM integration & purchase history</li>
-            <li><span class="check">★</span> ERP: real-time stock & delivery times</li>
-            <li><span class="check">★</span> Dynamic per-customer pricing</li>
-            <li><span class="check">★</span> Data-driven upsell & cross-sell</li>
-            <li><span class="check">★</span> Enterprise SLA & audit trail</li>
-            <li><span class="check">★</span> Full multi-location deployment</li>
+            <li><span class="check">★</span> <span data-i18n="tier2_f1">CRM integration &amp; purchase history</span></li>
+            <li><span class="check">★</span> <span data-i18n="tier2_f2">ERP: real-time stock &amp; delivery times</span></li>
+            <li><span class="check">★</span> <span data-i18n="tier2_f3">Dynamic per-customer pricing</span></li>
+            <li><span class="check">★</span> <span data-i18n="tier2_f4">Data-driven upsell &amp; cross-sell</span></li>
+            <li><span class="check">★</span> <span data-i18n="tier2_f5">Enterprise SLA &amp; audit trail</span></li>
+            <li><span class="check">★</span> <span data-i18n="tier2_f6">Full multi-location deployment</span></li>
           </ul>
         </div>
       </div>
 
-      <p class="pricing-note">
+      <p class="pricing-note" data-i18n-html="pricing_note">
         <strong>Pricing based exclusively on questions asked.</strong><br>
         Unlimited users and documents at no extra cost. Tiered thresholds for full cost predictability.
       </p>
@@ -1099,104 +1042,100 @@
   <!-- DEMO FORM -->
   <div class="form-section" id="demo">
     <div class="form-wrapper">
-      <!-- LEFT COPY -->
       <div class="form-copy">
-        <div class="section-label">Get started</div>
-        <h2 class="section-title" style="color: #fff;">Book your<br>personalized demo</h2>
-        <p class="section-sub">See Metys in action on your actual products — not a generic demo.</p>
+        <div class="section-label" data-i18n="form_label">Get started</div>
+        <h2 class="section-title" data-i18n-html="form_title_h2">Book your<br>personalized demo</h2>
+        <p class="section-sub" data-i18n="form_sub">See Metys in action on your actual products — not a generic demo.</p>
 
         <div class="form-steps">
           <div class="form-step">
             <div class="form-step-num">1</div>
             <div class="form-step-body">
-              <h4>Personalized Demo</h4>
-              <p>30 min with your real documentation. Metys in action on your actual products.</p>
+              <h4 data-i18n="fs1_title">Personalized Demo</h4>
+              <p data-i18n="fs1_p">30 min with your real documentation. Metys in action on your actual products.</p>
             </div>
           </div>
           <div class="form-step">
             <div class="form-step-num">2</div>
             <div class="form-step-body">
-              <h4>Pilot — 4 to 6 weeks</h4>
-              <p>500–2,000 SKUs, agreed impact metrics. No long-term commitment.</p>
+              <h4 data-i18n="fs2_title">Pilot — 4 to 6 weeks</h4>
+              <p data-i18n="fs2_p">500–2,000 SKUs, agreed impact metrics. No long-term commitment.</p>
             </div>
           </div>
           <div class="form-step">
             <div class="form-step-num">3</div>
             <div class="form-step-body">
-              <h4>Scale & Integrate</h4>
-              <p>Full catalog, CRM/ERP integration, multi-location rollout. The data speaks.</p>
+              <h4 data-i18n="fs3_title">Scale &amp; Integrate</h4>
+              <p data-i18n="fs3_p">Full catalog, CRM/ERP integration, multi-location rollout. The data speaks.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- FORM -->
       <div>
         <form id="demoForm" novalidate>
-          <p class="form-title">Request a demo</p>
+          <p class="form-title" data-i18n="form_heading">Request a demo</p>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="firstName">First name *</label>
+              <label for="firstName" data-i18n="label_first">First name *</label>
               <input type="text" id="firstName" name="firstName" placeholder="Marco" required />
             </div>
             <div class="form-group">
-              <label for="lastName">Last name *</label>
+              <label for="lastName" data-i18n="label_last">Last name *</label>
               <input type="text" id="lastName" name="lastName" placeholder="Rossi" required />
             </div>
           </div>
 
           <div class="form-group">
-            <label for="email">Work email *</label>
+            <label for="email" data-i18n="label_email">Work email *</label>
             <input type="email" id="email" name="email" placeholder="marco@company.com" required />
           </div>
 
           <div class="form-group">
-            <label for="company">Company *</label>
+            <label for="company" data-i18n="label_company">Company *</label>
             <input type="text" id="company" name="company" placeholder="Acme Distribution" required />
           </div>
 
           <div class="form-group">
-            <label for="role">Your role</label>
+            <label for="role" data-i18n="label_role">Your role</label>
             <select id="role" name="role">
-              <option value="" disabled selected>Select your role</option>
-              <option>VP Sales / Commercial Director</option>
-              <option>VP Digital / eCommerce</option>
-              <option>Head of Operations</option>
-              <option>Product Manager</option>
-              <option>IT / CTO</option>
-              <option>Other</option>
+              <option value="" disabled selected data-i18n="role_placeholder">Select your role</option>
+              <option data-i18n="role_1">VP Sales / Commercial Director</option>
+              <option data-i18n="role_2">VP Digital / eCommerce</option>
+              <option data-i18n="role_3">Head of Operations</option>
+              <option data-i18n="role_4">Product Manager</option>
+              <option data-i18n="role_5">IT / CTO</option>
+              <option data-i18n="role_6">Other</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="skus">Approx. number of SKUs</label>
+            <label for="skus" data-i18n="label_skus">Approx. number of SKUs</label>
             <select id="skus" name="skus">
-              <option value="" disabled selected>Select a range</option>
-              <option>< 1,000</option>
+              <option value="" disabled selected data-i18n="skus_placeholder">Select a range</option>
+              <option>&lt; 1,000</option>
               <option>1,000 – 10,000</option>
               <option>10,000 – 50,000</option>
               <option>50,000 – 300,000</option>
-              <option>> 300,000</option>
+              <option>&gt; 300,000</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="notes">Anything you'd like us to know</label>
-            <textarea id="notes" name="notes" placeholder="Current challenges, integrations, timeline…"></textarea>
+            <label for="notes" data-i18n="label_notes">Anything you'd like us to know</label>
+            <textarea id="notes" name="notes" data-i18n-placeholder="notes_placeholder" placeholder="Current challenges, integrations, timeline…"></textarea>
           </div>
 
-          <button type="submit" class="submit-btn">
-            Book my demo →
-          </button>
+          <button type="submit" class="submit-btn" data-i18n="submit_btn">Book my demo →</button>
 
-          <p class="form-disclaimer">No spam. No long-term commitment. We'll reach out within one business day.</p>
+          <p class="form-disclaimer" data-i18n="form_disclaimer">No spam. No long-term commitment. We'll reach out within one business day.</p>
         </form>
 
         <div class="success-msg" id="successMsg">
           <div class="success-icon">✅</div>
-          <h3>Request received!</h3>
-          <p>We'll reach out within one business day to schedule your personalized demo.</p>
+          <h3 data-i18n="success_title">Request received!</h3>
+          <p data-i18n="success_p">We'll reach out within one business day to schedule your personalized demo.</p>
         </div>
       </div>
     </div>
@@ -1206,43 +1145,305 @@
   <footer>
     <div class="footer-inner">
       <span class="footer-logo">Metys</span>
-      <span class="footer-by">Product knowledge is your most valuable asset. <strong>Metys makes it accessible, scalable, and measurable.</strong></span>
+      <span class="footer-by" data-i18n-html="footer_tagline">Product knowledge is your most valuable asset. <strong>Metys makes it accessible, scalable, and measurable.</strong></span>
       <span class="footer-by">By <strong>Corporate Hangar</strong> · 2026</span>
     </div>
   </footer>
 
   <script>
-    document.getElementById('demoForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+    const translations = {
+      en: {
+        nav_cta: 'Book a Demo →',
+        hero_tag: 'Product Intelligence · Sales Acceleration',
+        hero_h1: 'Your product knowledge,<br><span>always at hand</span>',
+        hero_p: 'Metys turns your technical documentation and business data into instant, accurate, and scalable sales expertise — for manufacturers and distributors of complex products.',
+        btn_demo: 'Book a personalized demo →',
+        btn_how: 'See how it works',
+        hero_note: '30-min demo on your real documentation. No commitment.',
+        stat_1: 'Quote turnaround speed',
+        stat_2: 'Product selection errors',
+        stat_3: 'New hire training time',
+        stat_4: 'Avg order value (upsell)',
+        stat_5: 'E-commerce conversion',
+        how_label: 'How it works',
+        how_title: 'Three steps to<br>expert-level answers',
+        step1_title: 'Upload your documentation',
+        step1_p: 'Catalogs, spec sheets, manuals, price lists, standards, competitive data. PDF, Word, Excel, CSV — any format you already have.',
+        step2_title: "Ask like you'd ask an expert",
+        step2_p: '"Which cable meets EN 50525 for underground install?" — "Alternatives to competitor product X?" Natural language, technical precision.',
+        step3_title: 'Get the answer in seconds',
+        step3_p: 'With an exact reference to the source document. No fabrication. No hallucination. Only your data — traceable every time.',
+        engines_label: 'Dual-engine architecture',
+        engines_title: 'One platform,<br>two engines',
+        engines_sub: 'No competitor offers this. Internal and customer-facing AI built on the same knowledge base.',
+        eng1_tag: 'Engine #1 — Internal',
+        eng1_audience: 'Sales teams, branches, agents, field reps',
+        eng1_f1: 'Instant answers on specs, standards, compatibility',
+        eng1_f2: 'Contextual upsell & cross-sell recommendations',
+        eng1_f3: 'Competitive comparisons in clear, actionable language',
+        eng1_f4: 'Quote-ready summaries generated in seconds',
+        eng1_f5: 'New hires answer like a veteran from day one',
+        eng1_f6: 'Real-time stock & delivery times (ERP integration)',
+        eng1_f7: 'Consistent answers across all locations & channels',
+        eng2_tag: 'Engine #2 — Customer-facing',
+        eng2_audience: 'Website, e-commerce, customer branded app',
+        eng2_f1: 'Natural and technical language product search',
+        eng2_f2: 'Intelligent clarifying questions to refine results',
+        eng2_f3: 'Standards-compliant product suggestions',
+        eng2_f4: 'Ready-to-order bills of materials (BOM)',
+        eng2_f5: 'Automatic alternatives when items are out of stock',
+        eng2_f6: 'Accessories, complements & cross-sell proposals',
+        eng2_f7: 'Integrates into checkout or quote request flow',
+        flywheel: '<strong>Flywheel effect:</strong> Greater internal accuracy → better customer answers → richer market insights → optimized sales scripts → more sales & data → ever-smarter AI.',
+        cs_label: 'Case Study',
+        cs_title: 'Already in production<br>at enterprise scale',
+        cs_sub: 'Metys is not a proof of concept. It is live in a complex, multinational environment.',
+        cs_sector: 'Cables & Connectivity · Fortune 500 · North America',
+        cs_quote: '"From thousands of product specs and technical standards to instant, traceable answers — without a single hallucination."',
+        cs_context: 'Prysmian, world leader in cables and connectivity systems, deployed Metys to support its North American sales force. Technical reps can now query the full product catalog, standards compliance, and competitive alternatives in natural language — with every answer linked to the exact source document.',
+        cs_tag_std: 'Standards compliance',
+        cs_m1: 'Reduction in product selection errors by the sales force',
+        cs_m2: 'Decrease in new hire onboarding time',
+        cs_m3: 'Faster quote turnaround across all branches',
+        cs_m4_value: 'Hours',
+        cs_m4: 'Time to go live from documentation upload',
+        pillars_label: 'Why Metys',
+        pillars_title: 'Built for enterprise.<br>Ready in hours.',
+        p1_title: 'Absolute Privacy',
+        p1_p: 'No document trains external models. Closed environment. Answers are always traceable to the source.',
+        p2_title: 'Operational in Hours',
+        p2_p: 'Zero infrastructure. No tech team needed. Upload your docs and start getting answers the same day.',
+        p3_title: 'Measurable ROI',
+        p3_p: 'Real-time analytics. Every interaction tracked and quantifiable — from day one.',
+        p4_title: 'White-Label Native',
+        p4_p: "Custom domain & branding. For end users, it's your company's own product.",
+        p5_title: 'In Production',
+        p5_p: 'Validated with a multinational cables & connectivity manufacturer in North America.',
+        tiers_label: 'Plans',
+        tiers_title: 'Start fast,<br>scale when ready',
+        tiers_sub: 'Unlimited users. Unlimited documents. You only pay for what you use.',
+        tier1_title: 'Immediate value,<br>minimal setup',
+        tier1_sub: 'Everything you need to start',
+        tier1_f1: 'Catalog, spec sheet & manual indexing',
+        tier1_f2: 'AI assistant with source tracing',
+        tier1_f3: 'Multi-format: PDF, Word, Excel, CSV',
+        tier1_f4: 'Analytics dashboard & KPIs',
+        tier1_f5: 'Enterprise authentication (WorkOS)',
+        tier1_f6: 'Folder organization & access control',
+        tier2_title: 'Enterprise-grade<br>intelligence',
+        tier2_sub: 'Everything in Base, plus',
+        tier2_f1: 'CRM integration & purchase history',
+        tier2_f2: 'ERP: real-time stock & delivery times',
+        tier2_f3: 'Dynamic per-customer pricing',
+        tier2_f4: 'Data-driven upsell & cross-sell',
+        tier2_f5: 'Enterprise SLA & audit trail',
+        tier2_f6: 'Full multi-location deployment',
+        pricing_note: '<strong>Pricing based exclusively on questions asked.</strong><br>Unlimited users and documents at no extra cost. Tiered thresholds for full cost predictability.',
+        form_label: 'Get started',
+        form_title_h2: 'Book your<br>personalized demo',
+        form_sub: 'See Metys in action on your actual products — not a generic demo.',
+        fs1_title: 'Personalized Demo',
+        fs1_p: '30 min with your real documentation. Metys in action on your actual products.',
+        fs2_title: 'Pilot — 4 to 6 weeks',
+        fs2_p: '500–2,000 SKUs, agreed impact metrics. No long-term commitment.',
+        fs3_title: 'Scale & Integrate',
+        fs3_p: 'Full catalog, CRM/ERP integration, multi-location rollout. The data speaks.',
+        form_heading: 'Request a demo',
+        label_first: 'First name *',
+        label_last: 'Last name *',
+        label_email: 'Work email *',
+        label_company: 'Company *',
+        label_role: 'Your role',
+        role_placeholder: 'Select your role',
+        role_1: 'VP Sales / Commercial Director',
+        role_2: 'VP Digital / eCommerce',
+        role_3: 'Head of Operations',
+        role_4: 'Product Manager',
+        role_5: 'IT / CTO',
+        role_6: 'Other',
+        label_skus: 'Approx. number of SKUs',
+        skus_placeholder: 'Select a range',
+        label_notes: "Anything you'd like us to know",
+        notes_placeholder: 'Current challenges, integrations, timeline…',
+        submit_btn: 'Book my demo →',
+        form_disclaimer: "No spam. No long-term commitment. We'll reach out within one business day.",
+        success_title: 'Request received!',
+        success_p: "We'll reach out within one business day to schedule your personalized demo.",
+        footer_tagline: 'Product knowledge is your most valuable asset. <strong>Metys makes it accessible, scalable, and measurable.</strong>',
+      },
+      it: {
+        nav_cta: 'Prenota una Demo →',
+        hero_tag: 'Product Intelligence · Sales Acceleration',
+        hero_h1: 'La tua conoscenza di prodotto,<br><span>sempre a portata di mano</span>',
+        hero_p: 'Metys trasforma la documentazione tecnica e i dati aziendali in competenze di vendita istantanee, precise e scalabili — per produttori e distributori di prodotti complessi.',
+        btn_demo: 'Prenota una demo personalizzata →',
+        btn_how: 'Scopri come funziona',
+        hero_note: 'Demo di 30 min sulla tua documentazione reale. Nessun vincolo.',
+        stat_1: 'Velocità di preventivazione',
+        stat_2: 'Errori di selezione prodotto',
+        stat_3: 'Tempo di formazione nuovi assunti',
+        stat_4: 'Valore medio ordine (upsell)',
+        stat_5: 'Conversione e-commerce',
+        how_label: 'Come funziona',
+        how_title: 'Tre passi per<br>risposte da esperto',
+        step1_title: 'Carica la tua documentazione',
+        step1_p: 'Cataloghi, schede tecniche, manuali, listini, normative, dati competitivi. PDF, Word, Excel, CSV — qualsiasi formato che hai già.',
+        step2_title: 'Chiedi come chiederesti a un esperto',
+        step2_p: '"Quale cavo soddisfa EN 50525 per installazione interrata?" — "Alternative al prodotto X del competitor?" Linguaggio naturale, precisione tecnica.',
+        step3_title: 'Ottieni la risposta in secondi',
+        step3_p: 'Con riferimento esatto al documento sorgente. Nessuna invenzione. Nessuna allucinazione. Solo i tuoi dati — tracciabili ogni volta.',
+        engines_label: 'Architettura dual-engine',
+        engines_title: 'Una piattaforma,<br>due motori',
+        engines_sub: 'Nessun competitor offre questo. AI interna e rivolta al cliente costruita sulla stessa base di conoscenza.',
+        eng1_tag: 'Motore #1 — Interno',
+        eng1_audience: 'Team vendite, filiali, agenti, tecnici sul campo',
+        eng1_f1: 'Risposte immediate su specifiche, normative, compatibilità',
+        eng1_f2: 'Raccomandazioni contestuali di upsell & cross-sell',
+        eng1_f3: 'Confronti competitivi in linguaggio chiaro e actionable',
+        eng1_f4: 'Preventivi pronti generati in secondi',
+        eng1_f5: 'I nuovi assunti rispondono come veterani dal primo giorno',
+        eng1_f6: 'Stock e tempi di consegna in tempo reale (integrazione ERP)',
+        eng1_f7: 'Risposte coerenti in tutte le sedi e i canali',
+        eng2_tag: 'Motore #2 — Rivolto al cliente',
+        eng2_audience: 'Sito web, e-commerce, app branded del cliente',
+        eng2_f1: 'Ricerca prodotti in linguaggio naturale e tecnico',
+        eng2_f2: 'Domande di chiarimento intelligenti per affinare i risultati',
+        eng2_f3: 'Suggerimenti di prodotti conformi agli standard',
+        eng2_f4: 'Distinte materiali (BOM) pronte all\'ordine',
+        eng2_f5: 'Alternative automatiche quando gli articoli sono esauriti',
+        eng2_f6: 'Proposte di accessori, complementi & cross-sell',
+        eng2_f7: 'Si integra nel flusso di checkout o di richiesta preventivo',
+        flywheel: '<strong>Effetto volano:</strong> Maggiore accuratezza interna → migliori risposte ai clienti → insight di mercato più ricchi → script di vendita ottimizzati → più vendite & dati → AI sempre più intelligente.',
+        cs_label: 'Case Study',
+        cs_title: 'Già in produzione<br>a scala enterprise',
+        cs_sub: 'Metys non è un proof of concept. È live in un ambiente complesso e multinazionale.',
+        cs_sector: 'Cavi & Connettività · Fortune 500 · Nord America',
+        cs_quote: '"Da migliaia di schede tecniche e normative a risposte istantanee e tracciabili — senza una singola allucinazione."',
+        cs_context: 'Prysmian, leader mondiale nei cavi e sistemi di connettività, ha implementato Metys a supporto della sua forza vendita nordamericana. I tecnici commerciali possono ora interrogare l\'intero catalogo prodotti, la conformità alle normative e le alternative competitive in linguaggio naturale — con ogni risposta collegata al documento sorgente esatto.',
+        cs_tag_std: 'Conformità normativa',
+        cs_m1: 'Riduzione degli errori di selezione prodotto da parte della forza vendita',
+        cs_m2: 'Riduzione del tempo di onboarding dei nuovi assunti',
+        cs_m3: 'Preventivi più veloci in tutte le filiali',
+        cs_m4_value: 'Ore',
+        cs_m4: 'Tempo per andare live dal caricamento della documentazione',
+        pillars_label: 'Perché Metys',
+        pillars_title: 'Pensato per l\'enterprise.<br>Operativo in ore.',
+        p1_title: 'Privacy Assoluta',
+        p1_p: 'Nessun documento addestra modelli esterni. Ambiente chiuso. Le risposte sono sempre tracciabili alla fonte.',
+        p2_title: 'Operativo in Ore',
+        p2_p: 'Zero infrastrutture. Nessun team tecnico necessario. Carica i tuoi documenti e inizia a ottenere risposte lo stesso giorno.',
+        p3_title: 'ROI Misurabile',
+        p3_p: 'Analytics in tempo reale. Ogni interazione tracciata e quantificabile — dal primo giorno.',
+        p4_title: 'White-Label Nativo',
+        p4_p: 'Dominio e branding personalizzati. Per gli utenti finali, è il prodotto della tua azienda.',
+        p5_title: 'In Produzione',
+        p5_p: 'Validato con un produttore multinazionale di cavi e connettività in Nord America.',
+        tiers_label: 'Piani',
+        tiers_title: 'Parti subito,<br>scala quando sei pronto',
+        tiers_sub: 'Utenti illimitati. Documenti illimitati. Paghi solo per ciò che usi.',
+        tier1_title: 'Valore immediato,<br>configurazione minima',
+        tier1_sub: 'Tutto il necessario per iniziare',
+        tier1_f1: 'Indicizzazione di cataloghi, schede tecniche e manuali',
+        tier1_f2: 'Assistente AI con tracciabilità della fonte',
+        tier1_f3: 'Multi-formato: PDF, Word, Excel, CSV',
+        tier1_f4: 'Dashboard analytics & KPI',
+        tier1_f5: 'Autenticazione enterprise (WorkOS)',
+        tier1_f6: 'Organizzazione cartelle & controllo accessi',
+        tier2_title: 'Intelligenza<br>enterprise-grade',
+        tier2_sub: 'Tutto di Base, più',
+        tier2_f1: 'Integrazione CRM & storico acquisti',
+        tier2_f2: 'ERP: stock e tempi di consegna in tempo reale',
+        tier2_f3: 'Prezzi dinamici per cliente',
+        tier2_f4: 'Upsell & cross-sell data-driven',
+        tier2_f5: 'SLA enterprise & audit trail',
+        tier2_f6: 'Deploy multi-sede completo',
+        pricing_note: '<strong>Prezzo basato esclusivamente sulle domande poste.</strong><br>Utenti e documenti illimitati senza costi aggiuntivi. Soglie a livelli per una piena prevedibilità dei costi.',
+        form_label: 'Inizia ora',
+        form_title_h2: 'Prenota la tua<br>demo personalizzata',
+        form_sub: 'Vedi Metys in azione sui tuoi prodotti reali — non una demo generica.',
+        fs1_title: 'Demo Personalizzata',
+        fs1_p: '30 min con la tua documentazione reale. Metys in azione sui tuoi prodotti.',
+        fs2_title: 'Pilot — 4-6 settimane',
+        fs2_p: '500–2.000 SKU, metriche di impatto concordate. Nessun impegno a lungo termine.',
+        fs3_title: 'Scala & Integra',
+        fs3_p: 'Catalogo completo, integrazione CRM/ERP, rollout multi-sede. I dati parlano.',
+        form_heading: 'Richiedi una demo',
+        label_first: 'Nome *',
+        label_last: 'Cognome *',
+        label_email: 'Email aziendale *',
+        label_company: 'Azienda *',
+        label_role: 'Il tuo ruolo',
+        role_placeholder: 'Seleziona il tuo ruolo',
+        role_1: 'VP Sales / Direttore Commerciale',
+        role_2: 'VP Digital / eCommerce',
+        role_3: 'Head of Operations',
+        role_4: 'Product Manager',
+        role_5: 'IT / CTO',
+        role_6: 'Altro',
+        label_skus: 'N. approssimativo di SKU',
+        skus_placeholder: 'Seleziona un range',
+        label_notes: 'Qualcosa che vuoi farci sapere',
+        notes_placeholder: 'Sfide attuali, integrazioni, tempistiche…',
+        submit_btn: 'Prenota la mia demo →',
+        form_disclaimer: 'Nessuno spam. Nessun impegno a lungo termine. Ti contatteremo entro un giorno lavorativo.',
+        success_title: 'Richiesta ricevuta!',
+        success_p: 'Ti contatteremo entro un giorno lavorativo per organizzare la tua demo personalizzata.',
+        footer_tagline: 'La conoscenza di prodotto è il tuo asset più prezioso. <strong>Metys la rende accessibile, scalabile e misurabile.</strong>',
+      }
+    };
 
-      const required = this.querySelectorAll('[required]');
-      let valid = true;
+    function setLang(lang) {
+      document.documentElement.lang = lang;
 
-      required.forEach(field => {
-        field.style.borderColor = '';
-        if (!field.value.trim()) {
-          field.style.borderColor = '#ef4444';
-          valid = false;
-        }
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang][key] !== undefined) el.textContent = translations[lang][key];
       });
 
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.dataset.i18nHtml;
+        if (translations[lang][key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.dataset.i18nPlaceholder;
+        if (translations[lang][key] !== undefined) el.placeholder = translations[lang][key];
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      localStorage.setItem('metys_lang', lang);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLang(btn.dataset.lang));
+    });
+
+    // Init language from localStorage or browser preference
+    const saved = localStorage.getItem('metys_lang');
+    const preferred = navigator.language.startsWith('it') ? 'it' : 'en';
+    setLang(saved || preferred);
+
+    // Form submit
+    document.getElementById('demoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const required = this.querySelectorAll('[required]');
+      let valid = true;
+      required.forEach(field => {
+        field.style.borderColor = '';
+        if (!field.value.trim()) { field.style.borderColor = '#ef4444'; valid = false; }
+      });
       if (!valid) return;
-
-      // Collect form data
       const data = new FormData(this);
-      const payload = Object.fromEntries(data.entries());
-      console.log('Demo request:', payload);
-
-      // Show success state
+      console.log('Demo request:', Object.fromEntries(data.entries()));
       this.style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
     });
 
-    // Remove error highlight on input
     document.querySelectorAll('input, select, textarea').forEach(el => {
-      el.addEventListener('input', function() {
-        this.style.borderColor = '';
-      });
+      el.addEventListener('input', function() { this.style.borderColor = ''; });
     });
   </script>
 
